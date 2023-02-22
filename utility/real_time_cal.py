@@ -329,7 +329,7 @@ def run_one_case(type):
         ego_veh, obj_veh, last_index = cut_out(live_dir)
     """ save"""
     # 生成gif
-    makeGif(live_dir, dir_name, ego_veh.crash, last_index)
+    # makeGif(live_dir, dir_name, ego_veh.crash, last_index)
     # car driver info
     cnt_pd = pd.DataFrame(cnt_list)
     # sort by cfs_pfs
