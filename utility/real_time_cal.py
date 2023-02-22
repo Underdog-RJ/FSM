@@ -173,10 +173,10 @@ def cut_in(live_dir, csv_path):
         CFS.append(cfs)
         PFS.append(pfs)
 
-        li.plot_map(vehs, ax1, i, "cut_in", live_dir)
+        # li.plot_map(vehs, ax1, i, "cut_in", live_dir)
         last_index = i
         if ego_veh.crash == 1:
-            print("---")
+            # print("---")
             fig.patch.set_facecolor((1, 0, 0, 0.2))
 
     return ego_veh, cut_in_veh, last_index
