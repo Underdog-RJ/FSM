@@ -19,7 +19,7 @@ import os
 # import imageio
 import numpy as np
 import pandas as pd
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from post_processing import live_graph as li
 from . import movement as mvt
 from . import models as md
