@@ -89,7 +89,7 @@ def createXOSC(name, save_path):
     obj_speed = Data.getElementsByTagName("Private")[1].getElementsByTagName("AbsoluteTargetSpeed")[0]
     obj_speed.setAttribute("value", str(obj_longitudeSpeed))
     ego_speed_1 = Data.getElementsByTagName("Maneuver")[1].getElementsByTagName("AbsoluteTargetSpeed")[0]
-    ego_speed_1.setAttribute("value", str(ego_longitudeSpeed))
+    ego_speed_1.setAttribute("value", str(obj_longitudeSpeed))
 
     # duration
     LaneChangeActionDynamics = Data.getElementsByTagName("LaneChangeActionDynamics")[0]
