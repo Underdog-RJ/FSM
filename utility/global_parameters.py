@@ -34,7 +34,7 @@ lateral_speed = -3
 front_distance = 50
 
 # xosc properties
-ego_longitudeSpeed = 60
+ego_longitudeSpeed = 80
 obj_longitudeSpeed = 51
 Distance_ds_triggerValue = 13
 ego_startPositionS = 50
