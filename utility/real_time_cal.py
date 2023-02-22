@@ -64,12 +64,12 @@ xoscPath = "/home/Rupeng119_com/esmini/resources/xosc/"
 
 
 def createXOSC(name, save_path, res):
-    ego_startPositionS = res.ego_startPositionS
-    ego_longitudeSpeed = res.ego_longitudeSpeed / 3.6
-    obj_startPositionS = res.obj_startPositionS
-    obj_longitudeSpeed = res.obj_longitudeSpeed / 3.6
-    laneChangeDuration = res.laneChangeDuration
-    Distance_ds_triggerValue = res.Distance_ds_triggerValue
+    ego_startPositionS = res["ego_startPositionS"]
+    ego_longitudeSpeed = res["ego_longitudeSpeed"] / 3.6
+    obj_startPositionS = res["obj_startPositionS"]
+    obj_longitudeSpeed = res["obj_longitudeSpeed"] / 3.6
+    laneChangeDuration = res["laneChangeDuration"]
+    Distance_ds_triggerValue = res["Distance_ds_triggerValue"]
 
     # 创建xosc文件
     # 使用minidom解析器打开XML文档
@@ -182,7 +182,7 @@ def cut_in(live_dir, csv_path):
         # print("---")
         # fig.patch.set_facecolor((1, 0, 0, 0.2))
 
-    return ego_veh, cut_in_veh, last_index,count
+    return ego_veh, cut_in_veh, last_index, count
 
 
 def car_following(live_dir):
@@ -323,7 +323,7 @@ def run_one_case(type, res):
     remoteCall(full_path_xosc, csv_full_path)
 
     if type is "cut_in":
-        ego_veh, obj_veh, last_index,count = cut_in(live_dir, csv_full_path)
+        ego_veh, obj_veh, last_index, count = cut_in(live_dir, csv_full_path)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:

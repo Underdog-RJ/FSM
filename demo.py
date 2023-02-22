@@ -128,9 +128,4 @@ if __name__ == '__main__':
     res_list = []
     for i in range(0, 100):
         res = getRandom()
-        # count = real_time_cal.run_one_case(scenario, res)
-        count = 0
-        res["count"] = count
-        res_list.append(res)
-    pd_list = pd.DataFrame(res_list)
-    pd_list.to_csv("./result.csv")
+        print(res["ego_longitudeSpeed"])
