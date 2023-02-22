@@ -14,6 +14,9 @@
 #  under the Licence.
 #
 #
+import random
+import pandas as pd
+
 from utility import real_time_cal
 
 '''
@@ -45,5 +48,32 @@ scenario = scenarios[0]
 # model = models[0]
 model = 'FSM'
 
+
+def getRandom():
+    ego_speed = random.randint(40, 60)
+    diff = random.randint(0, 10)
+    obj_speed = ego_speed - diff
+    ego_pos = random.randint(30, 50)
+    obj_pos = random.randint(120, 160)
+    dis = random.randint(10, 20)
+    time = random.uniform(2, 5)
+    res = {}
+    res["ego_longitudeSpeed"] = ego_speed
+    res["ego_startPositionS"] = ego_pos
+    res["obj_longitudeSpeed"] = obj_speed
+    res["obj_startPositionS"] = obj_pos
+    res["Distance_ds_triggerValue"] = dis
+    res["laneChangeDuration"] = time
+    return res
+
+
 if __name__ == '__main__':
-    real_time_cal.run_one_case(scenario)
+    # 获取随机参数
+    res_list = []
+    for i in range(0, 100):
+        res = getRandom()
+        count = real_time_cal.run_one_case(scenario, res)
+        res["count"] = count
+        res_list.append(res)
+    pd_list = pd.DataFrame(res_list)
+    pd_list.to_csv("./result.csv")

@@ -1,6 +1,8 @@
 # coding=utf-8
 import os
+import random
 import time
+
 import pandas as pd
 from xml.dom.minidom import parse
 import xml.dom.minidom
@@ -103,8 +105,32 @@ def remoteCall(xoscPath, savePath):
     os.system(execCommand)
 
 
+def getRandom():
+    ego_speed = random.randint(40, 60)
+    diff = random.randint(0, 10)
+    obj_speed = ego_speed - diff
+    ego_pos = random.randint(30, 50)
+    obj_pos = random.randint(120, 160)
+    dis = random.randint(10, 20)
+    time = random.uniform(2, 5)
+    res = {}
+    res["ego_longitudeSpeed"] = ego_speed
+    res["ego_startPositionS"] = ego_pos
+    res["obj_longitudeSpeed"] = obj_speed
+    res["obj_startPositionS"] = obj_pos
+    res["Distance_ds_triggerValue"] = dis
+    res["laneChangeDuration"] = time
+    return res
+
+
 if __name__ == '__main__':
-    # create_veh_from_csv()
-    # remoteCall()
-    full_xoscpath = createXOSC("cut_in1.xosc")
-    remoteCall(full_xoscpath, "./full_log_4.csv")
+    # 获取随机参数
+    res_list = []
+    for i in range(0, 100):
+        res = getRandom()
+        # count = real_time_cal.run_one_case(scenario, res)
+        count = 0
+        res["count"] = count
+        res_list.append(res)
+    pd_list = pd.DataFrame(res_list)
+    pd_list.to_csv("./result.csv")

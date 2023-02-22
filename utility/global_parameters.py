@@ -35,8 +35,8 @@ front_distance = 50
 
 # xosc properties
 ego_longitudeSpeed = 68
-obj_longitudeSpeed = 50
-Distance_ds_triggerValue = 13
 ego_startPositionS = 50
+obj_longitudeSpeed = 50
 obj_startPositionS = 150
+Distance_ds_triggerValue = 13
 laneChangeDuration = 2.2

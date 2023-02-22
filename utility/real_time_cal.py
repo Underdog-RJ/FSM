@@ -63,13 +63,14 @@ def buildCnt(ego_veh, cut_in_veh, index, cfs, pfs):
 xoscPath = "/home/Rupeng119_com/esmini/resources/xosc/"
 
 
-def createXOSC(name, save_path):
-    ego_startPositionS = gp.ego_startPositionS
-    ego_longitudeSpeed = gp.ego_longitudeSpeed / 3.6
-    obj_startPositionS = gp.obj_startPositionS
-    obj_longitudeSpeed = gp.obj_longitudeSpeed / 3.6
-    laneChangeDuration = gp.laneChangeDuration
-    Distance_ds_triggerValue = gp.Distance_ds_triggerValue
+def createXOSC(name, save_path, res):
+    ego_startPositionS = res.ego_startPositionS
+    ego_longitudeSpeed = res.ego_longitudeSpeed / 3.6
+    obj_startPositionS = res.obj_startPositionS
+    obj_longitudeSpeed = res.obj_longitudeSpeed / 3.6
+    laneChangeDuration = res.laneChangeDuration
+    Distance_ds_triggerValue = res.Distance_ds_triggerValue
+
     # 创建xosc文件
     # 使用minidom解析器打开XML文档
     DOMTree = xml.dom.minidom.parse("./cut-in.xosc")
@@ -151,7 +152,6 @@ def cut_in(live_dir, csv_path):
 
     # ego_veh = mvt.create_profile_cutting_in(init_pos_ego, init_long_speed_ego, 0, iterations, freq)
     ego_veh, cut_in_veh, lengthTotal = mvt.create_veh_from_csv(csv_path)
-    print("123456")
     cut_in_veh.width = width
     cut_in_veh.length = length
     ego_veh.width = width
@@ -160,13 +160,15 @@ def cut_in(live_dir, csv_path):
 
     vehs = [ego_veh, cut_in_veh]
 
+    count = 0
     for i in range(iterations - 1):
 
         if i == 1:
             plt.pause(2)
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
-
+        if cfs > 0.5:
+            count += 1
         # build cnt info
         cnt = buildCnt(ego_veh, cut_in_veh, i, cfs, pfs)
         cnt_list.append(cnt)
@@ -175,11 +177,12 @@ def cut_in(live_dir, csv_path):
 
         # li.plot_map(vehs, ax1, i, "cut_in", live_dir)
         last_index = i
-        if ego_veh.crash == 1:
-            # print("---")
-            fig.patch.set_facecolor((1, 0, 0, 0.2))
 
-    return ego_veh, cut_in_veh, last_index
+        # if ego_veh.crash == 1:
+        # print("---")
+        # fig.patch.set_facecolor((1, 0, 0, 0.2))
+
+    return ego_veh, cut_in_veh, last_index,count
 
 
 def car_following(live_dir):
@@ -294,7 +297,7 @@ CFS, PFS = [], []
 cnt_list = []
 
 
-def run_one_case(type):
+def run_one_case(type, res):
     global CFS
     global PFS
 
@@ -313,16 +316,14 @@ def run_one_case(type):
     cnt_xosc = str(next_index) + ".xosc"
     cnt_full_path = os.path.join(dir_name, cnt_xosc)
 
-    full_path_xosc = createXOSC(cnt_xosc, cnt_full_path)
+    full_path_xosc = createXOSC(cnt_xosc, cnt_full_path, res)
 
     csv_full_path = os.path.join(dir_name, str(next_index) + ".csv")
 
     remoteCall(full_path_xosc, csv_full_path)
 
-
-
     if type is "cut_in":
-        ego_veh, obj_veh, last_index = cut_in(live_dir, csv_full_path)
+        ego_veh, obj_veh, last_index,count = cut_in(live_dir, csv_full_path)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
@@ -358,3 +359,4 @@ def run_one_case(type):
     plt.legend()
     resultPath = os.path.join(dir_name, "cfs_pfs.png")
     plt.savefig(resultPath)
+    return count
