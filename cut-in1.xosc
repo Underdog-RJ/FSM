@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Demonstrate basic maneuvers and triggers --><!-- A white car is driving with constant speed --><!-- A red car is overtaking --><!-- At specific time gap the red car changes lane --><!-- and ends up in front of the white car --><!-- At another, larger, time gap the red car brakes --><OpenSCENARIO>
+    <FileHeader revMajor="1" revMinor="1" date="2021-04-09T10:00:00" description="Basic cut-in" author="esmini-team"/>
+    <ParameterDeclarations>
+        <ParameterDeclaration name="HostVehicle" parameterType="string" value="car_white"/>
+        <ParameterDeclaration name="TargetVehicle" parameterType="string" value="car_red"/>
+        <ParameterDeclaration name="EgoStartS" parameterType="double" value="50"/>
+        <ParameterDeclaration name="HeadwayTime_LaneChange" parameterType="double" value="0.4"/>
+        <ParameterDeclaration name="HeadwayTime_Brake" parameterType="double" value="0.7"/>
+        <ParameterDeclaration name="EgoSpeed" parameterType="double" value="108"/>
+        <ParameterDeclaration name="TargetSpeedFactor" parameterType="double" value="1.2"/>
+    </ParameterDeclarations>
+    <CatalogLocations>
+        <VehicleCatalog>
+            <Directory path="../xosc/Catalogs/Vehicles"/>
+        </VehicleCatalog>
+    </CatalogLocations>
+    <RoadNetwork>
+        <LogicFile filepath="../xodr/e6mini.xodr"/>
+        <SceneGraphFile filepath="../models/e6mini.osgb"/>
+    </RoadNetwork>
+    <Entities>
+        <ScenarioObject name="Ego">
+            <CatalogReference catalogName="VehicleCatalog" entryName="car_white"/>
+        </ScenarioObject>
+        <ScenarioObject name="Obj1">
+            <CatalogReference catalogName="VehicleCatalog" entryName="car_red"/>
+        </ScenarioObject>
+    </Entities>
+    <Storyboard>
+        <Init>
+            <Actions>
+                <GlobalAction>
+                    <EnvironmentAction>
+                        <Environment>
+                            <TimeOfDay animation="false" dateTime=""/>
+                            <Weather cloudState="overcast">
+                                <Sun intensity="1" azimuth="0" elevation="1.571"/>
+                                <Fog visualRange="0"/>
+                                <Precipitation precipitationType="dry" intensity="0"/>
+                                <RoadCondition frictionScaleFactor="1.0">
+                                    <Properties/>
+                                </RoadCondition>
+                            </Weather>
+                        </Environment>
+                    </EnvironmentAction>
+                </GlobalAction>
+                <Private entityRef="Ego">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <LanePosition roadId="0" laneId="-3" offset="0.000000" s="50.000000">
+                                    <Orientation type="relative" h="0.000000" p="0.000000" r="0.000000"/>
+                                </LanePosition>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step" value="0" dynamicsDimension="time"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="18.055556"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+                <Private entityRef="Obj1">
+                    <PrivateAction>
+                        <TeleportAction>
+                            <Position>
+                                <LanePosition roadId="0" laneId="-2" offset="0.000000" s="150.000000">
+                                    <Orientation type="relative" h="0.000000" p="0.000000" r="0.000000"/>
+                                </LanePosition>
+                            </Position>
+                        </TeleportAction>
+                    </PrivateAction>
+                    <PrivateAction>
+                        <LongitudinalAction>
+                            <SpeedAction>
+                                <SpeedActionDynamics dynamicsShape="step" value="0" dynamicsDimension="time"/>
+                                <SpeedActionTarget>
+                                    <AbsoluteTargetSpeed value="14.166667"/>
+                                </SpeedActionTarget>
+                            </SpeedAction>
+                        </LongitudinalAction>
+                    </PrivateAction>
+                </Private>
+            </Actions>
+        </Init>
+        <Story name="">
+            <Act name="Behavior">
+                <ManeuverGroup maximumExecutionCount="1" name="Ego_ManeuverGroup">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Ego"/>
+                    </Actors>
+                    <Maneuver name="Ego_Maneuver">
+                        <Event name="Ego_Maneuver_event_0" priority="skip" maximumExecutionCount="1">
+                            <Action name="Ego_action_speed">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="step" value="0.000000" dynamicsDimension="time"/>
+                                            <SpeedActionTarget>
+                                                <AbsoluteTargetSpeed value="18.055556"/>
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Ego_Maneuver_event_0_event_codition_simulationtime" delay="0" conditionEdge="none">
+                                        <ByValueCondition>
+                                            <SimulationTimeCondition value="0.000000" rule="greaterThan"/>
+                                        </ByValueCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+                <ManeuverGroup maximumExecutionCount="1" name="Obj1_ManeuverGroup">
+                    <Actors selectTriggeringEntities="false">
+                        <EntityRef entityRef="Obj1"/>
+                    </Actors>
+                    <Maneuver name="Obj1_Maneuver">
+                        <Event name="Obj1_Maneuver_event_0" priority="skip" maximumExecutionCount="1">
+                            <Action name="Obj1_action_speed">
+                                <PrivateAction>
+                                    <LongitudinalAction>
+                                        <SpeedAction>
+                                            <SpeedActionDynamics dynamicsShape="step" value="0.000000" dynamicsDimension="time"/>
+                                            <SpeedActionTarget>
+                                                <AbsoluteTargetSpeed value="14.166667"/>
+                                            </SpeedActionTarget>
+                                        </SpeedAction>
+                                    </LongitudinalAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Obj1_Maneuver_event_0_event_codition_simulationtime" delay="0" conditionEdge="none">
+                                        <ByValueCondition>
+                                            <SimulationTimeCondition value="0.000000" rule="greaterThan"/>
+                                        </ByValueCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                        <Event name="Obj1_Maneuver_event_1" priority="skip" maximumExecutionCount="1">
+                            <Action name="Obj1_action_lanechange">
+                                <PrivateAction>
+                                    <LateralAction>
+                                        <LaneChangeAction targetLaneOffset="0.000000">
+                                            <LaneChangeActionDynamics dynamicsShape="sinusoidal" value="2.200000" dynamicsDimension="time"/>
+                                            <LaneChangeTarget>
+                                                <RelativeTargetLane entityRef="Obj1" value="-1"/>
+                                            </LaneChangeTarget>
+                                        </LaneChangeAction>
+                                    </LateralAction>
+                                </PrivateAction>
+                            </Action>
+                            <StartTrigger>
+                                <ConditionGroup>
+                                    <Condition name="Obj1_Maneuver_event_1_event_condition_storyboard_elementstate" delay="0" conditionEdge="none">
+                                        <ByValueCondition>
+                                            <StoryboardElementStateCondition storyboardElementType="event" storyboardElementRef="Obj1_Maneuver_event_0" state="completeState"/>
+                                        </ByValueCondition>
+                                    </Condition>
+                                    <Condition name="Obj1_Maneuver_event_1_event_condition_relativedistance" delay="0" conditionEdge="none">
+                                        <ByEntityCondition>
+                                            <TriggeringEntities triggeringEntitiesRule="any">
+                                                <EntityRef entityRef="Ego"/>
+                                            </TriggeringEntities>
+                                            <EntityCondition>
+                                                <RelativeDistanceCondition entityRef="Obj1" relativeDistanceType="longitudinal" freespace="false" rule="lessThan" value="50.000000"/>
+                                            </EntityCondition>
+                                        </ByEntityCondition>
+                                    </Condition>
+                                </ConditionGroup>
+                            </StartTrigger>
+                        </Event>
+                    </Maneuver>
+                </ManeuverGroup>
+            </Act>
+        </Story>
+        <StopTrigger>
+            <ConditionGroup>
+                <Condition name="stop" delay="0" conditionEdge="rising">
+                    <ByValueCondition>
+                        <SimulationTimeCondition value="100" rule="greaterThan"/>
+                    </ByValueCondition>
+                </Condition>
+            </ConditionGroup>
+        </StopTrigger>
+    </Storyboard>
+</OpenSCENARIO>
