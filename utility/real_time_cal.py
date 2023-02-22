@@ -16,10 +16,10 @@
 #
 import os
 
-import imageio
+# import imageio
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from post_processing import live_graph as li
 from . import movement as mvt
 from . import models as md
@@ -125,14 +125,14 @@ def getNextIndex():
     return next_index
 
 
-def makeGif(live_dir, dir_name, isCrash, last_index):
-    gif_list = []
-    print(last_index)
-    for i in range(1, last_index + 1):
-        image_path = str(i) + ".png"
-        gif_list.append(imageio.imread(os.path.join(live_dir, image_path)))
-    git_path = os.path.join(dir_name, str(isCrash) + ".gif")
-    imageio.mimwrite(git_path, gif_list, fps=3)
+# def makeGif(live_dir, dir_name, isCrash, last_index):
+#     gif_list = []
+#     print(last_index)
+#     for i in range(1, last_index + 1):
+#         image_path = str(i) + ".png"
+#         gif_list.append(imageio.imread(os.path.join(live_dir, image_path)))
+#     git_path = os.path.join(dir_name, str(isCrash) + ".gif")
+#     imageio.mimwrite(git_path, gif_list, fps=3)
 
 
 def cut_in(live_dir, csv_path):
