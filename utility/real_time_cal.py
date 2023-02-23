@@ -35,9 +35,7 @@ width = gp.width
 iterations = gp.iterations
 freq = gp.freq
 deceleration = gp.g * 0.5
-fig = plt.figure()
-ax1 = fig.add_subplot(1, 1, 1)
-plt.axis('off')
+
 from xml.dom.minidom import parse
 import xml.dom.minidom
 
@@ -117,7 +115,7 @@ def createXOSC(name, save_path, res):
 
 
 def remoteCall(xoscPath, savePath):
-    execCommand = "esmini --osc {} --fixed_timestep 0.75 --csv_logger {} --collision".format(xoscPath, savePath)
+    execCommand = "esmini --osc {} --fixed_timestep 0.2 --csv_logger {} --collision".format(xoscPath, savePath)
     os.system(execCommand)
 
 
@@ -304,6 +302,8 @@ cnt_list = []
 
 
 def run_one_case(type, res):
+    fig = plt.figure()
+    plt.axis('off')
     global CFS
     global PFS
 

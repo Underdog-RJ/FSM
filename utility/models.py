@@ -209,6 +209,7 @@ def FSM_check_safety(ego_veh, cutting_in_veh, speed_log, speed_lat, freq, i):
             return True, 0, 0
 
     ar = (ego_veh.speed_profile_long[i] - ego_veh.speed_profile_long[i - 1]) * freq
+
     dist = abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) - ego_veh.length / 2 + \
            - cutting_in_veh.length / 2
 
