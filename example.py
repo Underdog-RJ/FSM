@@ -55,7 +55,7 @@ def getRandom():
     obj_speed = ego_speed - diff
     ego_pos = random.randint(30, 50)
     obj_pos = random.randint(120, 160)
-    dis = random.randint(10, 20)
+    dis = random.randint(15, 30)
     time = random.uniform(2, 5)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
@@ -70,11 +70,11 @@ def getRandom():
 if __name__ == '__main__':
     # 获取随机参数
     res_list = []
-    for i in range(0, 10):
+    for i in range(0, 100):
         res = getRandom()
         count,max_cfs = real_time_cal.run_one_case(scenario, res)
         res["count"] = count
         res["max_cfs"] = max_cfs
         res_list.append(res)
     pd_list = pd.DataFrame(res_list)
-    pd_list.to_csv("./result2.csv")
+    pd_list.to_csv("./result3.csv")
