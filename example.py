@@ -51,7 +51,7 @@ model = 'FSM'
 
 def getRandom():
     ego_speed = random.randint(40, 60)
-    diff = random.randint(0, 10)
+    diff = random.randint(5, 9)
     obj_speed = ego_speed - diff
     ego_pos = random.randint(30, 50)
     obj_pos = random.randint(120, 160)
