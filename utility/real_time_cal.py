@@ -172,9 +172,10 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
             plt.pause(2)
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
-        if cfs > 0.5 and cfs < 1.0:
+        if ego_veh.crash == 1 and cfs > 0.5:
             count += 1
             max_cfs = max(max_cfs, cfs)
+
         # build cnt info
         cnt = buildCnt(ego_veh, cut_in_veh, i, cfs, pfs)
         cnt_list.append(cnt)

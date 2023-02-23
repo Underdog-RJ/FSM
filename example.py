@@ -70,11 +70,11 @@ def getRandom():
 if __name__ == '__main__':
     # 获取随机参数
     res_list = []
-    for i in range(0, 20):
+    for i in range(0, 10):
         res = getRandom()
-        count,max_cfs = real_time_cal.run_one_case(scenario, res)
+        count, max_cfs = real_time_cal.run_one_case(scenario, res)
         res["count"] = count
         res["max_cfs"] = max_cfs
         res_list.append(res)
     pd_list = pd.DataFrame(res_list)
-    pd_list.to_csv("./result3.csv")
+    pd_list.to_csv("./result4.csv")
