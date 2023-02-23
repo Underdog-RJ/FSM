@@ -70,6 +70,12 @@ def createXOSC(name, save_path, res):
     obj_longitudeSpeed = res["obj_longitudeSpeed"] / 3.6
     laneChangeDuration = res["laneChangeDuration"]
     Distance_ds_triggerValue = res["Distance_ds_triggerValue"]
+    # ego_startPositionS = gp.ego_startPositionS
+    # ego_longitudeSpeed = gp.ego_longitudeSpeed / 3.6
+    # obj_startPositionS = gp.obj_startPositionS
+    # obj_longitudeSpeed = gp.obj_longitudeSpeed / 3.6
+    # laneChangeDuration = gp.laneChangeDuration
+    # Distance_ds_triggerValue = gp.Distance_ds_triggerValue
 
     # 创建xosc文件
     # 使用minidom解析器打开XML文档
@@ -111,7 +117,7 @@ def createXOSC(name, save_path, res):
 
 
 def remoteCall(xoscPath, savePath):
-    execCommand = "esmini --osc {} --fixed_timestep 0.1 --csv_logger {} --collision".format(xoscPath, savePath)
+    execCommand = "esmini --osc {} --fixed_timestep 0.75 --csv_logger {} --collision".format(xoscPath, savePath)
     os.system(execCommand)
 
 
@@ -203,7 +209,7 @@ def car_following(live_dir):
     ego_veh.length = gp.length
 
     vehs = [ego_veh, leader_veh]
-    last_index = -1;
+    last_index = -1
 
     for i in range(iterations - 1):
         last_index = i
@@ -359,4 +365,5 @@ def run_one_case(type, res):
     plt.legend()
     resultPath = os.path.join(dir_name, "cfs_pfs.png")
     plt.savefig(resultPath)
+    plt.close()
     return count

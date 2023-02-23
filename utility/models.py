@@ -211,6 +211,7 @@ def FSM_check_safety(ego_veh, cutting_in_veh, speed_log, speed_lat, freq, i):
     ar = (ego_veh.speed_profile_long[i] - ego_veh.speed_profile_long[i - 1]) * freq
     dist = abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) - ego_veh.length / 2 + \
            - cutting_in_veh.length / 2
+
     cfs = ff.CFS(dist, ego_veh.speed_profile_long[i], cutting_in_veh.speed_profile_long[i], ego_veh.FSM_rt,
                  ego_veh.FSM_br_min, ego_veh.FSM_br_max, ego_veh.FSM_bl, ar)
     pfs = ff.PFS(dist, ego_veh.speed_profile_long[i], cutting_in_veh.speed_profile_long[i], ego_veh.FSM_rt,
