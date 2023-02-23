@@ -140,7 +140,7 @@ def getNextIndex():
 #     imageio.mimwrite(git_path, gif_list, fps=3)
 
 
-def cut_in(live_dir, csv_path):
+def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
     init_long_speed_ego = gp.initial_speed
     init_long_speed_c = gp.obstacle_speed
     lateral_speed = gp.lateral_speed
@@ -172,9 +172,9 @@ def cut_in(live_dir, csv_path):
             plt.pause(2)
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
-        max_cfs = max(max_cfs, cfs)
-        if cfs > 0.5:
+        if cfs > 0.5 and cfs < 1.0:
             count += 1
+            max_cfs = max(max_cfs, cfs)
         # build cnt info
         cnt = buildCnt(ego_veh, cut_in_veh, i, cfs, pfs)
         cnt_list.append(cnt)
@@ -299,17 +299,11 @@ def cut_out(live_dir):
     return ego_veh, cut_out_veh, i
 
 
-CFS, PFS = [], []
-cnt_list = []
-
-
 def run_one_case(type, res):
     fig = plt.figure()
     plt.axis('off')
-    global CFS
-    global PFS
-
-    global cnt_list
+    CFS, PFS = [], []
+    cnt_list = []
 
     next_index = getNextIndex()
     dir_name = "./data"
@@ -331,7 +325,7 @@ def run_one_case(type, res):
     remoteCall(full_path_xosc, csv_full_path)
 
     if type is "cut_in":
-        ego_veh, obj_veh, last_index, count,max_cfs = cut_in(live_dir, csv_full_path)
+        ego_veh, obj_veh, last_index, count, max_cfs = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
@@ -368,4 +362,4 @@ def run_one_case(type, res):
     resultPath = os.path.join(dir_name, "cfs_pfs.png")
     plt.savefig(resultPath)
     plt.close()
-    return count,max_cfs
+    return count, max_cfs

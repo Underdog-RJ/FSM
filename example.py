@@ -70,7 +70,7 @@ def getRandom():
 if __name__ == '__main__':
     # 获取随机参数
     res_list = []
-    for i in range(0, 100):
+    for i in range(0, 10):
         res = getRandom()
         count,max_cfs = real_time_cal.run_one_case(scenario, res)
         res["count"] = count
