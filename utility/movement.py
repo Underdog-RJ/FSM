@@ -39,12 +39,12 @@ def create_veh_from_csv(csv_path):
     for row_index, row in cnt_pd.iterrows():
         ego_pos_profile_long.append(row[" #1 World_Position_Y [m] "])
         ego_pos_profile_lat.append(row[" #1 World_Position_X [m] "])
-        ego_speed_profile_long.append(row[" #1 Vel_X [m/s] "])
-        ego_speed_profile_lat.append(row[" #1 Vel_Y [m/s] "])
+        ego_speed_profile_long.append(row[" #1 Vel_Y [m/s] "])
+        ego_speed_profile_lat.append(row[" #1 Vel_X [m/s] "])
         obj_pos_profile_long.append(row[" #2 World_Position_Y [m] "])
         obj_pos_profile_lat.append(row[" #2 World_Position_X [m] "])
-        obj_speed_profile_long.append(row[" #2 Vel_X [m/s] "])
-        obj_speed_profile_lat.append(row[" #2 Vel_Y [m/s] "])
+        obj_speed_profile_long.append(row[" #2 Vel_Y [m/s] "])
+        obj_speed_profile_lat.append(row[" #2 Vel_X [m/s] "])
     ego_veh.speed_profile_long = ego_speed_profile_long
     ego_veh.speed_profile_lat = ego_speed_profile_lat
     ego_veh.pos_profile_long = ego_pos_profile_long

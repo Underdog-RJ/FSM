@@ -72,8 +72,9 @@ if __name__ == '__main__':
     res_list = []
     for i in range(0, 10):
         res = getRandom()
-        count = real_time_cal.run_one_case(scenario, res)
+        count,max_cfs = real_time_cal.run_one_case(scenario, res)
         res["count"] = count
+        res["max_cfs"] = max_cfs
         res_list.append(res)
     pd_list = pd.DataFrame(res_list)
-    pd_list.to_csv("./result1.csv")
+    pd_list.to_csv("./result2.csv")
