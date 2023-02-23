@@ -55,8 +55,8 @@ def getRandom():
     obj_speed = ego_speed - diff
     ego_pos = random.randint(30, 50)
     obj_pos = random.randint(120, 160)
-    dis = random.randint(15, 30)
-    time = random.uniform(2, 5)
+    dis = random.randint(10, 20)
+    time = random.uniform(2, 4)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
     res["ego_startPositionS"] = ego_pos
@@ -70,7 +70,7 @@ def getRandom():
 if __name__ == '__main__':
     # 获取随机参数
     res_list = []
-    for i in range(0, 10):
+    for i in range(0, 20):
         res = getRandom()
         count,max_cfs = real_time_cal.run_one_case(scenario, res)
         res["count"] = count

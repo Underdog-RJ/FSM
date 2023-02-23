@@ -47,10 +47,10 @@ def buildCnt(ego_veh, cut_in_veh, index, cfs, pfs):
     cnt["ego_speed_profile_lat"] = ego_veh.speed_profile_lat[index]
     cnt["ego_pos_profile_long"] = ego_veh.pos_profile_long[index]
     cnt["ego_pos_profile_lat"] = ego_veh.pos_profile_lat[index]
-    cnt["cut_in_ego_speed_profile_long"] = cut_in_veh.speed_profile_long[index]
-    cnt["cnt_in_ego_speed_profile_lat"] = cut_in_veh.speed_profile_lat[index]
-    cnt["cnt_in_ego_pos_profile_long"] = cut_in_veh.pos_profile_long[index]
-    cnt["cnt_in_ego_pos_profile_lat"] = cut_in_veh.pos_profile_lat[index]
+    cnt["cut_in_speed_profile_long"] = cut_in_veh.speed_profile_long[index]
+    cnt["cnt_in_speed_profile_lat"] = cut_in_veh.speed_profile_lat[index]
+    cnt["cnt_in_pos_profile_long"] = cut_in_veh.pos_profile_long[index]
+    cnt["cnt_in_pos_profile_lat"] = cut_in_veh.pos_profile_lat[index]
     cnt["cfs"] = cfs
     cnt["pfs"] = pfs
     cnt["cfs_pfs"] = cfs + pfs
@@ -345,14 +345,14 @@ def run_one_case(type, res):
     sort_cnt_pd.to_excel(sortPath)
 
     ''' post processing '''
-    plt.figure('Trajectory')
-    plt.plot(obj_veh.pos_profile_long, obj_veh.pos_profile_lat, 'rx', label=type + ' vehicle')
-    plt.plot(ego_veh.pos_profile_long, ego_veh.pos_profile_lat, 'bx', label='Ego vehicle')
-    plt.xlabel('x (m)')
-    plt.ylabel('y (m)')
-    plt.legend()
-    traPath = os.path.join(dir_name, "trajectory.png")
-    plt.savefig(traPath)
+    # plt.figure('Trajectory')
+    # plt.plot(obj_veh.pos_profile_long, obj_veh.pos_profile_lat, 'rx', label=type + ' vehicle')
+    # plt.plot(ego_veh.pos_profile_long, ego_veh.pos_profile_lat, 'bx', label='Ego vehicle')
+    # plt.xlabel('x (m)')
+    # plt.ylabel('y (m)')
+    # plt.legend()
+    # traPath = os.path.join(dir_name, "trajectory.png")
+    # plt.savefig(traPath)
 
     ''' Fuzzy metrics'''
     plt.figure('Fuzzy metrics')
