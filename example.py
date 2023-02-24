@@ -79,9 +79,13 @@ def getNormal(x1, x2, low, high):
 def getFromParameterSpace():
     ego_speed = getNormal(55.87, 25, 40, 70)
     obj_speed = getNormal(60, 27, 40, 70)
+    while ego_speed <= obj_speed:
+        ego_speed = getNormal(55.87, 25, 40, 70)
+        obj_speed = getNormal(60, 27, 40, 70)
+
     ego_pos = 50
     obj_pos = 150
-    dis = getNormal(30, 5, 1, 6)
+    dis = getNormal(30, 5, 20, 40)
     time = getNormal(2.2, 1, 1, 6)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed

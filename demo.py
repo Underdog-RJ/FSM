@@ -7,6 +7,8 @@ import pandas as pd
 from xml.dom.minidom import parse
 import xml.dom.minidom
 import numpy as np
+
+
 def getNextIdnex():
     f = open('./index.txt', encoding='utf-8')
     line = f.readlines()[-1].strip()  # 读取第一行
@@ -121,16 +123,47 @@ def getRandom():
     res["laneChangeDuration"] = time
     return res
 
+
+def getNormal(x1, x2, low, high):
+    while True:
+        res = np.random.normal(x1, np.sqrt(x2), 1)[0]
+        if res >= low and res <= high:
+            break
+    return res
+
+
 def getFromParameterSpace():
+    ego_speed = getNormal(55.87, 25, 40, 70)
+    obj_speed = getNormal(60, 27, 40, 70)
+    while ego_speed <= obj_speed:
+        ego_speed = getNormal(55.87, 25, 40, 70)
+        obj_speed = getNormal(60, 27, 40, 70)
+    flag = False
+    if ego_speed > obj_speed:
+        flag = True
 
-    x1 = np.random.normal(60, np.sqrt(27), 1)[0]
-    print(x1)
-
+    ego_pos = 50
+    obj_pos = 150
+    dis = getNormal(30, 5, 20, 40)
+    time = getNormal(2.2, 1, 1, 6)
+    res = {}
+    res["ego_longitudeSpeed"] = ego_speed
+    res["ego_startPositionS"] = ego_pos
+    res["obj_longitudeSpeed"] = obj_speed
+    res["obj_startPositionS"] = obj_pos
+    res["Distance_ds_triggerValue"] = dis
+    res["laneChangeDuration"] = time
+    return res, flag
 
 
 if __name__ == '__main__':
     # 获取随机参数
-    getFromParameterSpace()
+    count = 0
+    for i in range(0, 100):
+        _, flag = getFromParameterSpace()
+        if flag:
+            count += 1
+    print(count)
     # res_list = []
     # for i in range(0, 100):
     #     res = getRandom()
