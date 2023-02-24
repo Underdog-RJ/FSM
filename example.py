@@ -15,6 +15,7 @@
 #
 #
 import random
+import numpy as np
 import pandas as pd
 
 from utility import real_time_cal
@@ -67,14 +68,40 @@ def getRandom():
     return res
 
 
+def getNormal(x1, x2, low, high):
+    while True:
+        res = np.random.normal(x1, np.sqrt(x2), 1)[0]
+        if res >= low and res <= high:
+            break
+    return res
+
+
+def getFromParameterSpace():
+    ego_speed = getNormal(55.87, 25, 40, 70)
+    obj_speed = getNormal(60, 27, 40, 70)
+    ego_pos = 50
+    obj_pos = 150
+    dis = getNormal(30, 5, 1, 6)
+    time = getNormal(2.2, 1, 1, 6)
+    res = {}
+    res["ego_longitudeSpeed"] = ego_speed
+    res["ego_startPositionS"] = ego_pos
+    res["obj_longitudeSpeed"] = obj_speed
+    res["obj_startPositionS"] = obj_pos
+    res["Distance_ds_triggerValue"] = dis
+    res["laneChangeDuration"] = time
+    return res
+
+
 if __name__ == '__main__':
     # 获取随机参数
     res_list = []
-    for i in range(0, 100):
-        res = getRandom()
-        count, max_cfs = real_time_cal.run_one_case(scenario, res)
+    for i in range(0, 10):
+        res = getFromParameterSpace()
+        count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
         res["count"] = count
         res["max_cfs"] = max_cfs
+        res["last_index"] = last_index
         res_list.append(res)
     pd_list = pd.DataFrame(res_list)
     pd_list.to_csv("./result4.csv")

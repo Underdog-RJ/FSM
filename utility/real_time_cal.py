@@ -168,13 +168,24 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
     max_cfs = 0
     for i in range(iterations - 1):
 
-        if i == 1:
-            plt.pause(2)
+        # if i == 1:
+        #     plt.pause(2)
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
-        if ego_veh.crash == 1 and cfs > 0.5:
+
+        if cfs > 0.5 and cfs < 1.0:
             count += 1
             max_cfs = max(max_cfs, cfs)
+        if cfs >= 1.0 and ego_veh.crash is False:
+            count += 1
+            max_cfs = max(max_cfs, cfs)
+        if ego_veh.crash is False:
+            last_index = i
+
+        # if ego_veh.crash == 1 and cfs > 0.5:
+        #     count += 1
+        #     max_cfs = max(max_cfs, cfs)
+        #     last_index = i
 
         # build cnt info
         cnt = buildCnt(ego_veh, cut_in_veh, i, cfs, pfs)
@@ -183,7 +194,6 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
         PFS.append(pfs)
 
         # li.plot_map(vehs, ax1, i, "cut_in", live_dir)
-        last_index = i
 
         # if ego_veh.crash == 1:
         # print("---")
@@ -363,4 +373,4 @@ def run_one_case(type, res):
     resultPath = os.path.join(dir_name, "cfs_pfs.png")
     plt.savefig(resultPath)
     plt.close()
-    return count, max_cfs
+    return count, max_cfs, last_index

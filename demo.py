@@ -6,8 +6,7 @@ import time
 import pandas as pd
 from xml.dom.minidom import parse
 import xml.dom.minidom
-
-
+import numpy as np
 def getNextIdnex():
     f = open('./index.txt', encoding='utf-8')
     line = f.readlines()[-1].strip()  # 读取第一行
@@ -122,10 +121,17 @@ def getRandom():
     res["laneChangeDuration"] = time
     return res
 
+def getFromParameterSpace():
+
+    x1 = np.random.normal(60, np.sqrt(27), 1)[0]
+    print(x1)
+
+
 
 if __name__ == '__main__':
     # 获取随机参数
-    res_list = []
-    for i in range(0, 100):
-        res = getRandom()
-        print(res["ego_longitudeSpeed"])
+    getFromParameterSpace()
+    # res_list = []
+    # for i in range(0, 100):
+    #     res = getRandom()
+    #     print(res["ego_longitudeSpeed"])
