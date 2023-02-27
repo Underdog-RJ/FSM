@@ -14,11 +14,12 @@ def run():
             mkdirStr = "sudo mkdir -p {}".format(dir_path)
             os.system(mkdirStr)
             os.system("cd {}".format(dir_path))
-            esminiCmd = "esmini --window 60 60 800 400 --osc /home/Rupeng119_com/esmini/resources/xosc/{}.xosc --fixed_timestep 0.033 --capture_screen".format(
-                i)
-            os.system(esminiCmd)
-            mp4Cmd = "ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -qp 0 out.mp4"
-            os.system(mp4Cmd)
+            print(os.getcwd())
+            # esminiCmd = "esmini --window 60 60 800 400 --osc /home/Rupeng119_com/esmini/resources/xosc/{}.xosc --fixed_timestep 0.033 --capture_screen".format(
+            #     i)
+            # os.system(esminiCmd)
+            # mp4Cmd = "ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -qp 0 out.mp4"
+            # os.system(mp4Cmd)
 
 
 if __name__ == '__main__':
