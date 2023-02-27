@@ -1,4 +1,5 @@
 import os.path
+import stat
 
 dic_list = {"label1": [1189, 547, 1849], "label2": [597, 662, 1002], "label3": [189, 1692, 1474],
             "label4": [688, 441, 1112], "label0": [873, 924, 470]}
@@ -14,7 +15,7 @@ def run():
             mkdirStr = "sudo mkdir -p {}".format(dir_path)
             os.system(mkdirStr)
             os.system("cd {}".format(dir_path))
-            os.chmod(dir_path)
+            os.chmod(dir_path,stat.S_IWRITE)
             print(os.getcwd())
             # esminiCmd = "esmini --window 60 60 800 400 --osc /home/Rupeng119_com/esmini/resources/xosc/{}.xosc --fixed_timestep 0.033 --capture_screen".format(
             #     i)
