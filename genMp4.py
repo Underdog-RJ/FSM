@@ -12,9 +12,7 @@ def run():
         cnt_k = k
         for i in v:
             dir_path = os.path.join(base_path, cnt_k + "_" + str(i))
-            mkdirStr = "sudo mkdir -p {}".format(dir_path)
-            os.system(mkdirStr)
-            os.system("sudo chmod 777 {}".format(dir_path))
+            os.mkdir(dir_path, 777)
             os.chmod(dir_path, stat.S_IWRITE)
             esminiCmd = "esmini --window 60 60 800 400 --osc /home/Rupeng119_com/esmini/resources/xosc/{}.xosc --fixed_timestep 0.033 --capture_screen".format(
                 i)
