@@ -14,9 +14,11 @@
 #  under the Licence.
 #
 #
+import os
 import random
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 from utility import real_time_cal
 
@@ -96,6 +98,7 @@ def getFromParameterSpace():
     res["laneChangeDuration"] = time
     return res
 
+
 def getFromParameterSpace1():
     ego_speed = getNormal(55.87, 25, 40, 70)
     obj_speed = getNormal(45.93, 26.62, 40, 70)
@@ -117,15 +120,66 @@ def getFromParameterSpace1():
     return res
 
 
+def getNextIndex():
+    f = open('./index1.txt', encoding='utf-8')
+    line = f.readlines()[-1].strip()  # 读取第一行
+    f.close()
+    next_index = str(int(line) + 1)
+    f = open('./index1.txt', 'a+', encoding='utf-8')
+    f.writelines('\n' + next_index)
+    f.close()
+    return next_index
+
+
+def drawDistribution(obj_list, obj_path):
+    plt.figure(figsize=(20, 10), dpi=100)
+    plt.hist(np.array(obj_list), 200)
+    plt.savefig(obj_path)
+
+
 if __name__ == '__main__':
+    next_index = getNextIndex()
+    dir_name = "./res"
+    dir_name = os.path.join(dir_name, next_index)
+    if os.path.exists(dir_name) is False:
+        os.mkdir(dir_name, 777)
+
     # 获取随机参数
     res_list = []
-    for i in range(0, 100):
+    ego_speeds = []
+    obj_speeds = []
+    distance_list = []
+    duration_list = []
+    for i in range(0, 2000):
         res = getFromParameterSpace1()
-        count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
-        res["count"] = count
-        res["max_cfs"] = max_cfs
-        res["last_index"] = last_index
+        # count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
+        # res["count"] = count
+        # res["max_cfs"] = max_cfs
+        # res["last_index"] = last_index
         res_list.append(res)
+        ego_speeds.append(res["ego_longitudeSpeed"])
+        obj_speeds.append(res["obj_longitudeSpeed"])
+        distance_list.append(res["Distance_ds_triggerValue"])
+        duration_list.append(res["laneChangeDuration"])
+
+    # 生成结果csv
     pd_list = pd.DataFrame(res_list)
-    pd_list.to_csv("./result4.csv")
+    csv_path = os.path.join(dir_name, "res.csv")
+    pd_list.to_csv(csv_path)
+
+    # 生成ego_speed_dis
+    ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
+    drawDistribution(ego_speeds, ego_speed_dis)
+
+    # 生成obj_speed_dis
+    obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
+    drawDistribution(obj_speeds, obj_speed_dis)
+
+    # 生成laneChangeDuration
+    distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
+    drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
+
+
+    # 生成laneChangeDuration
+    laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
+    drawDistribution(duration_list, laneChange_duration_dis_path)

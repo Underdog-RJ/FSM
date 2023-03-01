@@ -3,6 +3,7 @@ import os
 import random
 import time
 
+import matplotlib.pyplot as plt
 import pandas as pd
 from xml.dom.minidom import parse
 import xml.dom.minidom
@@ -156,14 +157,23 @@ def getFromParameterSpace():
     return res, flag
 
 
+def plotDistribution():
+    res = np.random.normal(55.87, np.sqrt(25), 2000)
+    plt.figure(figsize=(20, 10), dpi=100)
+    plt.hist(res, 200)
+    plt.savefig("./dis.png")
+    # plt.show()
+
+
 if __name__ == '__main__':
-    # 获取随机参数
-    count = 0
-    for i in range(0, 100):
-        _, flag = getFromParameterSpace()
-        if flag:
-            count += 1
-    print(count)
+    plotDistribution()
+    # # 获取随机参数
+    # count = 0
+    # for i in range(0, 100):
+    #     _, flag = getFromParameterSpace()
+    #     if flag:
+    #         count += 1
+    # print(count)
     # res_list = []
     # for i in range(0, 100):
     #     res = getRandom()
