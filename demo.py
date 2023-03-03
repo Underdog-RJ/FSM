@@ -164,10 +164,32 @@ def plotDistribution():
     plt.savefig("./dis.png")
     # plt.show()
 
+def getObj(ego_speed, obj_speed, dis, time):
+    res = {}
+    res["ego_longitudeSpeed"] = ego_speed
+    res["ego_startPositionS"] = 50
+    res["obj_longitudeSpeed"] = obj_speed
+    res["obj_startPositionS"] = 150
+    res["Distance_ds_triggerValue"] = dis
+    res["laneChangeDuration"] = time
+    return res
+
+
+def KMeans():
+    o1 = getObj(55.2357, 46.7839, 33.6304, 2.43757)
+    o2 = getObj(53.7136, 48.1925, 33.1925, 2.4607)
+    o3 = getObj(59.2418, 44.3714, 33.7363, 2.41332)
+    t = []
+    t.append(o1)
+    t.append(o2)
+    t.append(o3)
+    return t
+
 
 if __name__ == '__main__':
-    ego_speed = getNormal(55.87, 25, 40, 70)
-    print(ego_speed)
+    print(KMeans()[0])
+    # ego_speed = getNormal(55.87, 25, 40, 70)
+    # print(ego_speed)
     # plotDistribution()
 
     # # 获取随机参数
