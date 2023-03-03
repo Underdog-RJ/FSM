@@ -120,6 +120,17 @@ def getFromParameterSpace1():
     return res
 
 
+def getObj(ego_speed, obj_speed, dis, time):
+    res = {}
+    res["ego_longitudeSpeed"] = ego_speed
+    res["ego_startPositionS"] = 50
+    res["obj_longitudeSpeed"] = obj_speed
+    res["obj_startPositionS"] = 150
+    res["Distance_ds_triggerValue"] = dis
+    res["laneChangeDuration"] = time
+    return res
+
+
 def getNextIndex():
     f = open('./index1.txt', encoding='utf-8')
     line = f.readlines()[-1].strip()  # 读取第一行
@@ -137,48 +148,58 @@ def drawDistribution(obj_list, obj_path):
     plt.savefig(obj_path)
 
 
+def KMeans():
+    o1 = getObj(55.2357, 46.7839, 33.6304, 2.43757)
+    real_time_cal.run_one_case(scenario, o1)
+    o2 = getObj(53.7136, 48.1925, 33.1925, 2.4607)
+    real_time_cal.run_one_case(scenario, o2)
+    o3 = getObj(59.2418, 44.3714, 33.7363, 2.41332)
+    real_time_cal.run_one_case(scenario, o3)
+
+
 if __name__ == '__main__':
-    next_index = getNextIndex()
-    dir_name = "./res"
-    dir_name = os.path.join(dir_name, next_index)
-    if os.path.exists(dir_name) is False:
-        os.mkdir(dir_name, 777)
-
-    # 获取随机参数
-    res_list = []
-    ego_speeds = []
-    obj_speeds = []
-    distance_list = []
-    duration_list = []
-    for i in range(0, 2000):
-        res = getFromParameterSpace1()
-        count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
-        res["count"] = count
-        res["max_cfs"] = max_cfs
-        res["last_index"] = last_index
-        res_list.append(res)
-        ego_speeds.append(res["ego_longitudeSpeed"])
-        obj_speeds.append(res["obj_longitudeSpeed"])
-        distance_list.append(res["Distance_ds_triggerValue"])
-        duration_list.append(res["laneChangeDuration"])
-
-    # 生成结果csv
-    pd_list = pd.DataFrame(res_list)
-    csv_path = os.path.join(dir_name, "res.csv")
-    pd_list.to_csv(csv_path)
-
-    # 生成ego_speed_dis
-    ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
-    drawDistribution(ego_speeds, ego_speed_dis)
-
-    # 生成obj_speed_dis
-    obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
-    drawDistribution(obj_speeds, obj_speed_dis)
-
-    # 生成laneChangeDuration
-    distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
-    drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
-
-    # 生成laneChangeDuration
-    laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
-    drawDistribution(duration_list, laneChange_duration_dis_path)
+    KMeans()
+    # next_index = getNextIndex()
+    # dir_name = "./res"
+    # dir_name = os.path.join(dir_name, next_index)
+    # if os.path.exists(dir_name) is False:
+    #     os.mkdir(dir_name, 777)
+    #
+    # # 获取随机参数
+    # res_list = []
+    # ego_speeds = []
+    # obj_speeds = []
+    # distance_list = []
+    # duration_list = []
+    # for i in range(0, 2000):
+    #     res = getFromParameterSpace1()
+    #     count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
+    #     res["count"] = count
+    #     res["max_cfs"] = max_cfs
+    #     res["last_index"] = last_index
+    #     res_list.append(res)
+    #     ego_speeds.append(res["ego_longitudeSpeed"])
+    #     obj_speeds.append(res["obj_longitudeSpeed"])
+    #     distance_list.append(res["Distance_ds_triggerValue"])
+    #     duration_list.append(res["laneChangeDuration"])
+    #
+    # # 生成结果csv
+    # pd_list = pd.DataFrame(res_list)
+    # csv_path = os.path.join(dir_name, "res.csv")
+    # pd_list.to_csv(csv_path)
+    #
+    # # 生成ego_speed_dis
+    # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
+    # drawDistribution(ego_speeds, ego_speed_dis)
+    #
+    # # 生成obj_speed_dis
+    # obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
+    # drawDistribution(obj_speeds, obj_speed_dis)
+    #
+    # # 生成laneChangeDuration
+    # distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
+    # drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
+    #
+    # # 生成laneChangeDuration
+    # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
+    # drawDistribution(duration_list, laneChange_duration_dis_path)
