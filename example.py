@@ -120,8 +120,6 @@ def getFromParameterSpace1():
     return res
 
 
-
-
 def getNextIndex():
     f = open('./index1.txt', encoding='utf-8')
     line = f.readlines()[-1].strip()  # 读取第一行
@@ -137,6 +135,7 @@ def drawDistribution(obj_list, obj_path):
     plt.figure(figsize=(20, 10), dpi=100)
     plt.hist(np.array(obj_list), 200)
     plt.savefig(obj_path)
+
 
 def getObj(ego_speed, obj_speed, dis, time):
     res = {}
@@ -175,11 +174,11 @@ if __name__ == '__main__':
     distance_list = []
     duration_list = []
     t_list = KMeans()
-    for i in range(0, 2):
-        # res = getFromParameterSpace1()
-        # count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
-        res = t_list[i]
-        count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
+    for i in range(0, 200):
+        res = getFromParameterSpace1()
+        count, max_cfs, last_index, crash_type = real_time_cal.run_one_case(scenario, res)
+        # res = t_list[i]
+        # count, max_cfs, last_index,crash_type = real_time_cal.run_one_case(scenario, res)
         res["count"] = count
         res["max_cfs"] = max_cfs
         res["last_index"] = last_index
