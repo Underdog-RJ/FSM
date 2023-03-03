@@ -70,25 +70,25 @@ def getRandom():
     return res
 
 
-def getNormal(x1, x2, low, high):
+def getNormal(x1, x2, low, high, decimal=0):
     while True:
-        res = np.random.normal(x1, np.sqrt(x2), 1)[0]
+        res = round(np.random.normal(x1, np.sqrt(x2), 1)[0], decimal)
         if res >= low and res <= high:
             break
     return res
 
 
 def getFromParameterSpace():
-    ego_speed = getNormal(55.87, 25, 40, 70)
-    obj_speed = getNormal(60, 27, 40, 70)
+    ego_speed = getNormal(55.87, 25, 40, 70, 0)
+    obj_speed = getNormal(60, 27, 40, 70, 0)
     while ego_speed <= obj_speed:
-        ego_speed = getNormal(55.87, 25, 40, 70)
-        obj_speed = getNormal(60, 27, 40, 70)
+        ego_speed = getNormal(55.87, 25, 40, 70, 0)
+        obj_speed = getNormal(60, 27, 40, 70, 0)
 
     ego_pos = 50
     obj_pos = 150
-    dis = getNormal(30, 5, 20, 40)
-    time = getNormal(2.2, 1, 1, 6)
+    dis = getNormal(30, 5, 20, 40, 0)
+    time = getNormal(2.2, 1, 1, 6, 2)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
     res["ego_startPositionS"] = ego_pos
@@ -100,16 +100,16 @@ def getFromParameterSpace():
 
 
 def getFromParameterSpace1():
-    ego_speed = getNormal(55.87, 25, 40, 70)
-    obj_speed = getNormal(45.93, 26.62, 40, 70)
+    ego_speed = getNormal(55.87, 25, 40, 70, 0)
+    obj_speed = getNormal(45.93, 26.62, 40, 70, 0)
     while ego_speed <= obj_speed:
-        ego_speed = getNormal(55.87, 25, 40, 70)
-        obj_speed = getNormal(45.93, 26.62, 40, 70)
+        ego_speed = getNormal(55.87, 25, 40, 70, 0)
+        obj_speed = getNormal(45.93, 26.62, 40, 70, 0)
 
     ego_pos = 50
     obj_pos = 150
-    dis = getNormal(34.58, 18.55, 20, 40)
-    time = getNormal(2.2, 1, 1, 6)
+    dis = getNormal(34.58, 18.55, 20, 40, 0)
+    time = getNormal(2.2, 1, 1, 6, 2)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
     res["ego_startPositionS"] = ego_pos
@@ -152,10 +152,10 @@ if __name__ == '__main__':
     duration_list = []
     for i in range(0, 2000):
         res = getFromParameterSpace1()
-        # count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
-        # res["count"] = count
-        # res["max_cfs"] = max_cfs
-        # res["last_index"] = last_index
+        count, max_cfs, last_index = real_time_cal.run_one_case(scenario, res)
+        res["count"] = count
+        res["max_cfs"] = max_cfs
+        res["last_index"] = last_index
         res_list.append(res)
         ego_speeds.append(res["ego_longitudeSpeed"])
         obj_speeds.append(res["obj_longitudeSpeed"])
@@ -178,7 +178,6 @@ if __name__ == '__main__':
     # 生成laneChangeDuration
     distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
     drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
-
 
     # 生成laneChangeDuration
     laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")

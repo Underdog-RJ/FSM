@@ -127,7 +127,7 @@ def getRandom():
 
 def getNormal(x1, x2, low, high):
     while True:
-        res = np.random.normal(x1, np.sqrt(x2), 1)[0]
+        res = round(np.random.normal(x1, np.sqrt(x2), 1)[0],2)
         if res >= low and res <= high:
             break
     return res
@@ -166,7 +166,10 @@ def plotDistribution():
 
 
 if __name__ == '__main__':
-    plotDistribution()
+    ego_speed = getNormal(55.87, 25, 40, 70)
+    print(ego_speed)
+    # plotDistribution()
+
     # # 获取随机参数
     # count = 0
     # for i in range(0, 100):
