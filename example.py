@@ -174,7 +174,7 @@ if __name__ == '__main__':
     distance_list = []
     duration_list = []
     t_list = KMeans()
-    for i in range(0, 200):
+    for i in range(0, 100):
         res = getFromParameterSpace1()
         count, max_cfs, last_index, crash_type = real_time_cal.run_one_case(scenario, res)
         # res = t_list[i]
@@ -182,6 +182,8 @@ if __name__ == '__main__':
         res["count"] = count
         res["max_cfs"] = max_cfs
         res["last_index"] = last_index
+        res["crash_type"] = crash_type
+
         res_list.append(res)
         ego_speeds.append(res["ego_longitudeSpeed"])
         obj_speeds.append(res["obj_longitudeSpeed"])
