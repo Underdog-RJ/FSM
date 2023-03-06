@@ -14,6 +14,7 @@
 #  under the Licence.
 #
 #
+import math
 import os
 
 # import imageio
@@ -170,12 +171,13 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     obj_start_pos_long = 0.0
     crash_pos_long = -1
     flag = False
-
+    startIndex = -1
     for i in range(iterations - 1):
         diff = cut_in_veh.pos_profile_long[i] - ego_veh.pos_profile_long[i]
         if diff <= res["Distance_ds_triggerValue"] and flag is not True:
             ego_start_pos_long = ego_veh.pos_profile_long[i]
             obj_start_pos_long = cut_in_veh.pos_profile_long[i]
+            startIndex = i
             flag = True
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
@@ -187,7 +189,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         if ego_veh.crash is False:
             last_index = i
         if ego_veh.crash is True and crash_pos_long == -1:
-            crash_pos_long = ego_veh.pos_profile_long[i]
+            crash_pos_long = ego_veh.pos_profile_long[i - 1]
 
         # build cnt info
         cnt = buildCnt(ego_veh, cut_in_veh, i, cfs, pfs)
@@ -195,13 +197,14 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         CFS.append(cfs)
         PFS.append(pfs)
 
-
-    obj_end_pos_long = obj_start_pos_long + res["obj_longitudeSpeed"] / 3.6 * res["laneChangeDuration"]
+    obj_end_pos_long = cut_in_veh.pos_profile_long[
+        min(startIndex + math.ceil(float(res["laneChangeDuration"]) * 10), 699)]
 
     if ego_veh.crash_type == 2 and (crash_pos_long - obj_end_pos_long > 50):
         ego_veh.crash_type = 3
     res_dic = {}
     res_dic["last_index"] = last_index
+    res_dic["start_index"] = startIndex
     res_dic["count"] = count
     res_dic["max_cfs"] = max_cfs
     res_dic["crash_type"] = ego_veh.crash_type

@@ -1,4 +1,5 @@
 # coding=utf-8
+import math
 import os
 import random
 import time
@@ -127,7 +128,7 @@ def getRandom():
 
 def getNormal(x1, x2, low, high):
     while True:
-        res = round(np.random.normal(x1, np.sqrt(x2), 1)[0],2)
+        res = round(np.random.normal(x1, np.sqrt(x2), 1)[0], 2)
         if res >= low and res <= high:
             break
     return res
@@ -164,6 +165,7 @@ def plotDistribution():
     plt.savefig("./dis.png")
     # plt.show()
 
+
 def getObj(ego_speed, obj_speed, dis, time):
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
@@ -190,7 +192,7 @@ if __name__ == '__main__':
     # name = {'name': 'Gage'}
     # age = {'age': 25}
     # name.update(age)
-    print(212.31 == -1)
+    print(math.ceil(float("4.11") * 10))
     # ego_speed = getNormal(55.87, 25, 40, 70)
     # print(ego_speed)
     # plotDistribution()
