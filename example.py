@@ -108,7 +108,8 @@ def getFromParameterSpace1():
 
     ego_pos = 50
     obj_pos = 150
-    dis = getNormal(34.58, 18.55, 20, 40, 0)
+    # dis = getNormal(34.58, 18.55, 20, 40, 0)
+    dis = getNormal(15, 5, 10, 20, 0)
     time = getNormal(2.2, 1, 1, 6, 2)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
