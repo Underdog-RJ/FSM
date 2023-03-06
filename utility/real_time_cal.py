@@ -166,14 +166,16 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
 
     count = 0
     max_cfs = 0
-    start_pos_long = 0.0
+    ego_start_pos_long = 0.0
+    obj_start_pos_long = 0.0
     crash_pos_long = -1
     flag = False
 
     for i in range(iterations - 1):
         diff = cut_in_veh.pos_profile_long[i] - ego_veh.pos_profile_long[i]
         if diff <= res["Distance_ds_triggerValue"] and flag is not True:
-            start_pos_long = ego_veh.pos_profile_long[i]
+            ego_start_pos_long = ego_veh.pos_profile_long[i]
+            obj_start_pos_long = cut_in_veh.pos_profile_long[i]
             flag = True
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
@@ -181,18 +183,11 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         if cfs > 0.5 and cfs <= 1.0 and ego_veh.crash is False:
             count += 1
             max_cfs = max(max_cfs, cfs)
-        # if cfs >= 1.0 and ego_veh.crash is False:
-        #     count += 1
-        #     max_cfs = max(max_cfs, cfs)
+
         if ego_veh.crash is False:
             last_index = i
         if ego_veh.crash is True and crash_pos_long == -1:
             crash_pos_long = ego_veh.pos_profile_long[i]
-
-        # if ego_veh.crash == 1 and cfs > 0.5:
-        #     count += 1
-        #     max_cfs = max(max_cfs, cfs)
-        #     last_index = i
 
         # build cnt info
         cnt = buildCnt(ego_veh, cut_in_veh, i, cfs, pfs)
@@ -200,21 +195,19 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         CFS.append(cfs)
         PFS.append(pfs)
 
-        # li.plot_map(vehs, ax1, i, "cut_in", live_dir)
 
-        # if ego_veh.crash == 1:
-        # print("---")
-        # fig.patch.set_facecolor((1, 0, 0, 0.2))
-    end_pos_long = start_pos_long + res["Distance_ds_triggerValue"]
-    if ego_veh.crash_type == 2 and (crash_pos_long - end_pos_long > 10):
+    obj_end_pos_long = obj_start_pos_long + res["obj_longitudeSpeed"] / 3.6 * res["laneChangeDuration"]
+
+    if ego_veh.crash_type == 2 and (crash_pos_long - obj_end_pos_long > 50):
         ego_veh.crash_type = 3
     res_dic = {}
     res_dic["last_index"] = last_index
     res_dic["count"] = count
     res_dic["max_cfs"] = max_cfs
     res_dic["crash_type"] = ego_veh.crash_type
-    res_dic["start_pos_long"] = start_pos_long
-    res_dic["end_pos_long"] = end_pos_long
+    res_dic["ego_start_pos_long"] = ego_start_pos_long
+    res_dic["obj_start_pos_long"] = obj_start_pos_long
+    res_dic["obj_end_pos_long"] = obj_end_pos_long
     res_dic["crash_pos_long"] = crash_pos_long
 
     return ego_veh, cut_in_veh, res_dic
