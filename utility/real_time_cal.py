@@ -173,12 +173,12 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
 
-        if cfs > 0.5 and cfs < 1.0:
+        if cfs > 0.5 and cfs <= 1.0 and ego_veh.crash is False:
             count += 1
             max_cfs = max(max_cfs, cfs)
-        if cfs >= 1.0 and ego_veh.crash is False:
-            count += 1
-            max_cfs = max(max_cfs, cfs)
+        # if cfs >= 1.0 and ego_veh.crash is False:
+        #     count += 1
+        #     max_cfs = max(max_cfs, cfs)
         if ego_veh.crash is False:
             last_index = i
 
@@ -199,7 +199,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
         # print("---")
         # fig.patch.set_facecolor((1, 0, 0, 0.2))
 
-    return ego_veh, cut_in_veh, last_index, count, max_cfs,ego_veh.crash_type
+    return ego_veh, cut_in_veh, last_index, count, max_cfs, ego_veh.crash_type
 
 
 def car_following(live_dir):
@@ -336,7 +336,7 @@ def run_one_case(type, res):
     remoteCall(full_path_xosc, csv_full_path)
 
     if type is "cut_in":
-        ego_veh, obj_veh, last_index, count, max_cfs,crash_type = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS)
+        ego_veh, obj_veh, last_index, count, max_cfs, crash_type = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
@@ -373,4 +373,4 @@ def run_one_case(type, res):
     resultPath = os.path.join(dir_name, "cfs_pfs.png")
     plt.savefig(resultPath)
     plt.close()
-    return count, max_cfs, last_index,crash_type
+    return count, max_cfs, last_index, crash_type

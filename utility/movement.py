@@ -137,8 +137,6 @@ def control(ego_veh, cutting_in_veh, freq, model_check, model_react, i):
             abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) - ego_veh.length / 2 + \
             - cutting_in_veh.length / 2 < 0:
         if not ego_veh.crash:
-
-
             if ego_veh.pos_profile_long[i] > cutting_in_veh.pos_profile_long[i]:
                 ego_veh.crash_type = 1
             else:

@@ -194,21 +194,21 @@ def FSM_check_safety(ego_veh, cutting_in_veh, speed_log, speed_lat, freq, i):
     # if ego_veh.pos_profile_long[i] > cutting_in_veh.pos_profile_long[i]:
     #     return True, 0, 0
 
-    if abs(ego_veh.pos_profile_lat[i] - cutting_in_veh.pos_profile_lat[i]) + \
-            - ego_veh.width / 2 - cutting_in_veh.width / 2 > 0:
-
-        cutin_speed = -cutting_in_veh.speed_profile_lat[i]
-        if cutin_speed > 0:
-            headway_lat = (abs(ego_veh.pos_profile_lat[i] - cutting_in_veh.pos_profile_lat[i]) +
-                           - ego_veh.width / 2 - cutting_in_veh.width / 2) / cutin_speed
-            headway_lon_gross = (abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) +
-                                 + ego_veh.length / 2 + cutting_in_veh.length / 2) / \
-                                (ego_veh.speed_profile_long[i] - cutting_in_veh.speed_profile_long[i])
-
-            if headway_lat > headway_lon_gross + 0.1:
-                return True, 0, 0
-        else:
-            return True, 0, 0
+    # if abs(ego_veh.pos_profile_lat[i] - cutting_in_veh.pos_profile_lat[i]) + \
+    #         - ego_veh.width / 2 - cutting_in_veh.width / 2 > 0:
+    #
+    #     cutin_speed = -cutting_in_veh.speed_profile_lat[i]
+    #     if cutin_speed > 0:
+    #         headway_lat = (abs(ego_veh.pos_profile_lat[i] - cutting_in_veh.pos_profile_lat[i]) +
+    #                        - ego_veh.width / 2 - cutting_in_veh.width / 2) / cutin_speed
+    #         headway_lon_gross = (abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) +
+    #                              + ego_veh.length / 2 + cutting_in_veh.length / 2) / \
+    #                             (ego_veh.speed_profile_long[i] - cutting_in_veh.speed_profile_long[i])
+    #
+    #         if headway_lat > headway_lon_gross + 0.1:
+    #             return True, 0, 0
+    #     else:
+    #         return True, 0, 0
 
     ar = (ego_veh.speed_profile_long[i] - ego_veh.speed_profile_long[i - 1]) * freq
 
