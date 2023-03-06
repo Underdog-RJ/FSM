@@ -185,7 +185,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         if ego_veh.crash is False:
             last_index = i
         if ego_veh.crash is True and crash_pos == -1:
-            crash_pos = ego_veh.pos_profile_lat
+            crash_pos = ego_veh.pos_profile_lat[i]
 
         # if ego_veh.crash == 1 and cfs > 0.5:
         #     count += 1
@@ -204,7 +204,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         # print("---")
         # fig.patch.set_facecolor((1, 0, 0, 0.2))
     end_pos_lat = start_pos_lat + res["Distance_ds_triggerValue"]
-    if ego_veh.crash_type == 2 and crash_pos - end_pos_lat > 30:
+    if ego_veh.crash_type == 2 and (crash_pos - end_pos_lat > 30):
         ego_veh.crash_type = 3
     res_dic = {}
     res_dic["last_index"] = last_index
