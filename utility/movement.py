@@ -124,14 +124,24 @@ def control(ego_veh, cutting_in_veh, freq, model_check, model_react, i):
     # ego_veh.pos_profile_lat[i + 1] = ego_veh.pos_profile_lat[i] + new_speed_lat / freq
 
     if abs(ego_veh.pos_profile_lat[i] - cutting_in_veh.pos_profile_lat[i]) + \
+            - ego_veh.width / 2 - cutting_in_veh.width / 2 < 0:
+        ego_veh.crash_type = 1
+        ego_veh.crash = True
+    if abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) - ego_veh.length / 2 + \
+            - cutting_in_veh.length / 2 < 0:
+        ego_veh.crash_type = 2
+        ego_veh.crash = True
+
+    if abs(ego_veh.pos_profile_lat[i] - cutting_in_veh.pos_profile_lat[i]) + \
             - ego_veh.width / 2 - cutting_in_veh.width / 2 < 0 and \
             abs(ego_veh.pos_profile_long[i] - cutting_in_veh.pos_profile_long[i]) - ego_veh.length / 2 + \
             - cutting_in_veh.length / 2 < 0:
-
-        if not ego_veh.crash:
-            if ego_veh.pos_profile_long[i] > cutting_in_veh.pos_profile_long[i]:
-                ego_veh.crash_type = 1
-            else:
-                ego_veh.crash_type = 2
+        ego_veh.crash_type = 3
+        # if not ego_veh.crash:
+        #     if ego_veh.pos_profile_long[i] > cutting_in_veh.pos_profile_long[i]:
+        #         ego_veh.crash_type = 1
+        #     else:
+        #         ego_veh.crash_type = 2
         ego_veh.crash = True
+
     return cfs, pfs
