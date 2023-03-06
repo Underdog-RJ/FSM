@@ -187,10 +187,10 @@ def KMeans():
 
 
 if __name__ == '__main__':
-    name = {'name': 'Gage'}
-    age = {'age': 25}
-    name.update(age)
-    print(name)
+    # name = {'name': 'Gage'}
+    # age = {'age': 25}
+    # name.update(age)
+    print(212.31 == -1)
     # ego_speed = getNormal(55.87, 25, 40, 70)
     # print(ego_speed)
     # plotDistribution()

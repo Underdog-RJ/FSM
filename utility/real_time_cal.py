@@ -167,12 +167,14 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     count = 0
     max_cfs = 0
     start_pos_long = 0.0
-    crash_pos = -1
+    crash_pos_long = -1
+    flag = False
 
     for i in range(iterations - 1):
         diff = cut_in_veh.pos_profile_long[i] - ego_veh.pos_profile_long[i]
-        if diff <= res["Distance_ds_triggerValue"]:
+        if diff <= res["Distance_ds_triggerValue"] and flag is not True:
             start_pos_long = ego_veh.pos_profile_long[i]
+            flag = True
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
 
@@ -184,8 +186,8 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         #     max_cfs = max(max_cfs, cfs)
         if ego_veh.crash is False:
             last_index = i
-        if ego_veh.crash is True and crash_pos == -1:
-            crash_pos = ego_veh.pos_profile_long[i]
+        if ego_veh.crash is True and crash_pos_long == -1:
+            crash_pos_long = ego_veh.pos_profile_long[i]
 
         # if ego_veh.crash == 1 and cfs > 0.5:
         #     count += 1
@@ -204,16 +206,16 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         # print("---")
         # fig.patch.set_facecolor((1, 0, 0, 0.2))
     end_pos_long = start_pos_long + res["Distance_ds_triggerValue"]
-    if ego_veh.crash_type == 2 and (crash_pos - end_pos_long > 20):
+    if ego_veh.crash_type == 2 and (crash_pos_long - end_pos_long > 10):
         ego_veh.crash_type = 3
     res_dic = {}
     res_dic["last_index"] = last_index
     res_dic["count"] = count
     res_dic["max_cfs"] = max_cfs
     res_dic["crash_type"] = ego_veh.crash_type
-    res_dic["start_pos_lat"] = start_pos_long
-    res_dic["end_pos_lat"] = end_pos_long
-    res_dic["crash_pos_lat"] = crash_pos
+    res_dic["start_pos_long"] = start_pos_long
+    res_dic["end_pos_long"] = end_pos_long
+    res_dic["crash_pos_long"] = crash_pos_long
 
     return ego_veh, cut_in_veh, res_dic
 
@@ -353,7 +355,7 @@ def run_one_case(type, res):
 
     if type is "cut_in":
         ego_veh, obj_veh, res_dic = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS,
-                                                                          res)
+                                           res)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
