@@ -166,13 +166,13 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
 
     count = 0
     max_cfs = 0
-    start_pos_lat = 0.0
+    start_pos_long = 0.0
     crash_pos = -1
 
     for i in range(iterations - 1):
-        diff = cut_in_veh.pos_profile_lat[i] - ego_veh.pos_profile_lat[i]
+        diff = cut_in_veh.pos_profile_long[i] - ego_veh.pos_profile_long[i]
         if diff <= res["Distance_ds_triggerValue"]:
-            start_pos_lat = ego_veh.pos_profile_lat[i]
+            start_pos_long = ego_veh.pos_profile_long[i]
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
 
@@ -185,7 +185,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         if ego_veh.crash is False:
             last_index = i
         if ego_veh.crash is True and crash_pos == -1:
-            crash_pos = ego_veh.pos_profile_lat[i]
+            crash_pos = ego_veh.pos_profile_long[i]
 
         # if ego_veh.crash == 1 and cfs > 0.5:
         #     count += 1
@@ -203,16 +203,16 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
         # if ego_veh.crash == 1:
         # print("---")
         # fig.patch.set_facecolor((1, 0, 0, 0.2))
-    end_pos_lat = start_pos_lat + res["Distance_ds_triggerValue"]
-    if ego_veh.crash_type == 2 and (crash_pos - end_pos_lat > 30):
+    end_pos_long = start_pos_long + res["Distance_ds_triggerValue"]
+    if ego_veh.crash_type == 2 and (crash_pos - end_pos_long > 20):
         ego_veh.crash_type = 3
     res_dic = {}
     res_dic["last_index"] = last_index
     res_dic["count"] = count
     res_dic["max_cfs"] = max_cfs
     res_dic["crash_type"] = ego_veh.crash_type
-    res_dic["start_pos_lat"] = start_pos_lat
-    res_dic["end_pos_lat"] = end_pos_lat
+    res_dic["start_pos_lat"] = start_pos_long
+    res_dic["end_pos_lat"] = end_pos_long
     res_dic["crash_pos_lat"] = crash_pos
 
     return ego_veh, cut_in_veh, res_dic
