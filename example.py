@@ -178,6 +178,7 @@ if __name__ == '__main__':
     for i in range(0, 100):
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
+
         # res = t_list[i]
         # count, max_cfs, last_index,crash_type = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)

@@ -215,7 +215,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     res_dic["end_pos_lat"] = end_pos_lat
     res_dic["crash_pos_lat"] = crash_pos
 
-    return ego_veh, cut_in_veh, res
+    return ego_veh, cut_in_veh, res_dic
 
 
 def car_following(live_dir):
