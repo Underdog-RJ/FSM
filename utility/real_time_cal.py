@@ -172,7 +172,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     for i in range(iterations - 1):
         diff = cut_in_veh.pos_profile_lat[i] - ego_veh.pos_profile_lat[i]
         if diff <= res["Distance_ds_triggerValue"]:
-            start_pos_lat = ego_veh[i]
+            start_pos_lat = ego_veh.pos_profile_lat[i]
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
 
