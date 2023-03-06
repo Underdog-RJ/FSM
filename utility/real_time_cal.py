@@ -140,7 +140,7 @@ def getNextIndex():
 #     imageio.mimwrite(git_path, gif_list, fps=3)
 
 
-def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
+def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     init_long_speed_ego = gp.initial_speed
     init_long_speed_c = gp.obstacle_speed
     lateral_speed = gp.lateral_speed
@@ -166,10 +166,13 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
 
     count = 0
     max_cfs = 0
-    for i in range(iterations - 1):
+    start_pos_lat = 0.0
+    crash_pos = -1
 
-        # if i == 1:
-        #     plt.pause(2)
+    for i in range(iterations - 1):
+        diff = cut_in_veh[i] - ego_veh[i]
+        if diff <= res["Distance_ds_triggerValue"]:
+            start_pos_lat = ego_veh[i]
 
         cfs, pfs = mvt.control(ego_veh, cut_in_veh, freq, check, react, i)
 
@@ -181,6 +184,8 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
         #     max_cfs = max(max_cfs, cfs)
         if ego_veh.crash is False:
             last_index = i
+        if ego_veh.crash is True and crash_pos == -1:
+            crash_pos = ego_veh.pos_profile_lat
 
         # if ego_veh.crash == 1 and cfs > 0.5:
         #     count += 1
@@ -198,8 +203,19 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS):
         # if ego_veh.crash == 1:
         # print("---")
         # fig.patch.set_facecolor((1, 0, 0, 0.2))
+    end_pos_lat = start_pos_lat + res["Distance_ds_triggerValue"]
+    if ego_veh.crash_type == 2 and crash_pos - end_pos_lat > 30:
+        ego_veh.crash_type = 3
+    res_dic = {}
+    res_dic["last_index"] = last_index
+    res_dic["count"] = count
+    res_dic["max_cfs"] = max_cfs
+    res_dic["crash_type"] = ego_veh.crash_type
+    res_dic["start_pos_lat"] = start_pos_lat
+    res_dic["end_pos_lat"] = end_pos_lat
+    res_dic["crash_pos_lat"] = crash_pos
 
-    return ego_veh, cut_in_veh, last_index, count, max_cfs, ego_veh.crash_type
+    return ego_veh, cut_in_veh, res
 
 
 def car_following(live_dir):
@@ -336,7 +352,8 @@ def run_one_case(type, res):
     remoteCall(full_path_xosc, csv_full_path)
 
     if type is "cut_in":
-        ego_veh, obj_veh, last_index, count, max_cfs, crash_type = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS)
+        ego_veh, obj_veh, res_dic = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS,
+                                                                          res)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
@@ -373,4 +390,4 @@ def run_one_case(type, res):
     resultPath = os.path.join(dir_name, "cfs_pfs.png")
     plt.savefig(resultPath)
     plt.close()
-    return count, max_cfs, last_index, crash_type
+    return res_dic

@@ -109,7 +109,7 @@ def getFromParameterSpace1():
     ego_pos = 50
     obj_pos = 150
     # dis = getNormal(34.58, 18.55, 20, 40, 0)
-    dis = getNormal(10, 5, 5, 15, 0)
+    dis = getNormal(15, 25, 5, 20, 0)
     time = getNormal(2.2, 1, 1, 6, 2)
     res = {}
     res["ego_longitudeSpeed"] = ego_speed
@@ -177,15 +177,14 @@ if __name__ == '__main__':
     t_list = KMeans()
     for i in range(0, 100):
         res = getFromParameterSpace1()
-        count, max_cfs, last_index, crash_type = real_time_cal.run_one_case(scenario, res)
+        res_dic = real_time_cal.run_one_case(scenario, res)
         # res = t_list[i]
         # count, max_cfs, last_index,crash_type = real_time_cal.run_one_case(scenario, res)
-        res["count"] = count
-        res["max_cfs"] = max_cfs
-        res["last_index"] = last_index
-        res["crash_type"] = crash_type
+        res.update(res_dic)
 
         res_list.append(res)
+
+        # 参数分布
         ego_speeds.append(res["ego_longitudeSpeed"])
         obj_speeds.append(res["obj_longitudeSpeed"])
         distance_list.append(res["Distance_ds_triggerValue"])

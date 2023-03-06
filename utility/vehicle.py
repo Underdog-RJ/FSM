@@ -30,7 +30,7 @@ class vehicle(object):
         self.pos_profile_long = []
         self.pos_profile_lat = []
 
-        self.width = 1.9
+        self.width = 2
         self.length = 5
 
         self.max_a = 3
