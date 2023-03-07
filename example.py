@@ -179,7 +179,7 @@ if __name__ == '__main__':
     distance_list = []
     duration_list = []
     t_list = KMeans()
-    for i in range(0, 100):
+    for i in range(0, 3):
         # res = getFromParameterSpace1()
         # res_dic = real_time_cal.run_one_case(scenario, res)
 
