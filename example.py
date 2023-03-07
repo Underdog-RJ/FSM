@@ -163,7 +163,9 @@ def KMeans():
     t.append(o3)
     return t
 
-
+"""
+    x
+"""
 if __name__ == '__main__':
     KMeans()
     next_index = getNextIndex()
@@ -179,12 +181,16 @@ if __name__ == '__main__':
     distance_list = []
     duration_list = []
     t_list = KMeans()
-    for i in range(0, 3):
-        # res = getFromParameterSpace1()
-        # res_dic = real_time_cal.run_one_case(scenario, res)
+    for i in range(0, 2000):
+        """
+        
+        """
 
-        res = t_list[i]
+        res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
+
+        # res = t_list[i]
+        # res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
 
         res_list.append(res)
