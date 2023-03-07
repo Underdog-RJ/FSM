@@ -183,7 +183,7 @@ if __name__ == '__main__':
     t_list = KMeans()
     for i in range(0, 2000):
         """
-        
+        update
         """
 
         res = getFromParameterSpace1()
