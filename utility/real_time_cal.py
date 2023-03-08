@@ -188,6 +188,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
 
         if ego_veh.crash is False:
             last_index = i
+
         if ego_veh.crash is True and crash_pos_long == -1:
             crash_pos_long = ego_veh.pos_profile_long[i - 1]
 
