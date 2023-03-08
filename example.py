@@ -154,14 +154,18 @@ def KMeans():
     # o2 = getObj(53.7136, 48.1925, 33.1925, 2.4607)
     # o3 = getObj(59.2418, 44.3714, 33.7363, 2.41332)
 
-    o1 = getObj(62, 50, 14, 2.15)
-    o2 = getObj(55, 44, 14, 2.49)
-    o3 = getObj(61, 43, 11, 2.70)
+    # o1 = getObj(62, 50, 14, 2.15)
+    # o2 = getObj(55, 44, 14, 2.49)
+    # o3 = getObj(61, 43, 11, 2.70)
+    o1 = getObj(59.7843, 44.1255, 13.9778, 2.35429)
+    o2 = getObj(54.0335, 47.841, 11.9247, 2.60787)
+    o3 = getObj(55.6629, 46.1471, 13.4246, 2.41181)
     t = []
     t.append(o1)
     t.append(o2)
     t.append(o3)
     return t
+
 
 """
     x
@@ -181,16 +185,16 @@ if __name__ == '__main__':
     distance_list = []
     duration_list = []
     t_list = KMeans()
-    for i in range(0, 2000):
+    for i in range(0, 3):
         """
         update
         """
 
-        res = getFromParameterSpace1()
-        res_dic = real_time_cal.run_one_case(scenario, res)
-
-        # res = t_list[i]
+        # res = getFromParameterSpace1()
         # res_dic = real_time_cal.run_one_case(scenario, res)
+
+        res = t_list[i]
+        res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
 
         res_list.append(res)
