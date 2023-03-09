@@ -190,10 +190,10 @@ def action():
     return res_list
 
 def get_result(future):
-    print(future.result())
+    print(len(future.result()))
 
 if __name__ == '__main__':
-    KMeans()
+    # KMeans()
     next_index = getNextIndex()
     dir_name = "./res"
     dir_name = os.path.join(dir_name, next_index)

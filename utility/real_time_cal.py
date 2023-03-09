@@ -23,6 +23,8 @@ import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import redis
+
 from post_processing import live_graph as li
 from . import movement as mvt
 from . import models as md
@@ -131,6 +133,14 @@ def getNextIndex():
     f.writelines('\n' + next_index)
     f.close()
     return next_index
+
+
+re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
+
+
+def getNextIndexFromRedis():
+    re.incr("nextIndex")
+    return int(re.get("nextIndex"))
 
 
 # def makeGif(live_dir, dir_name, isCrash, last_index):
@@ -336,7 +346,8 @@ def run_one_case(type, res):
     CFS, PFS = [], []
     cnt_list = []
 
-    next_index = getNextIndex()
+    # next_index = getNextIndex()
+    next_index = getNextIndexFromRedis()
     dir_name = "./data"
     tmp = type + "_" + next_index
     dir_name = os.path.join(dir_name, tmp)
@@ -355,7 +366,6 @@ def run_one_case(type, res):
     csv_full_path = os.path.join(dir_name, str(next_index) + ".csv")
 
     remoteCall(full_path_xosc, csv_full_path)
-
 
     if type is "cut_in":
 
