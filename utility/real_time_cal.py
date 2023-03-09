@@ -201,6 +201,9 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     obj_end_pos_long = cut_in_veh.pos_profile_long[
         min(startIndex + math.ceil(float(res["laneChangeDuration"]) * 10), 699)]
 
+    if ego_veh.crash_type == 2 and (crash_pos_long - obj_end_pos_long < 0):
+        ego_veh.crash_type = 1
+
     if ego_veh.crash_type == 2 and (crash_pos_long - obj_end_pos_long > 50):
         ego_veh.crash_type = 3
     res_dic = {}
