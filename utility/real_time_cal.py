@@ -116,7 +116,7 @@ def createXOSC(name, save_path, res):
 
 
 def remoteCall(xoscPath, savePath):
-    execCommand = "esmini --osc {} --fixed_timestep 0.2 --csv_logger {} --collision".format(xoscPath, savePath)
+    execCommand = "esmini --osc {} --fixed_timestep 0.1 --csv_logger {} --collision".format(xoscPath, savePath)
     os.system(execCommand)
 
 
@@ -206,6 +206,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
 
     if ego_veh.crash_type == 2 and (crash_pos_long - obj_end_pos_long > 50):
         ego_veh.crash_type = 3
+
     res_dic = {}
     res_dic["last_index"] = last_index
     res_dic["start_index"] = startIndex
@@ -329,8 +330,7 @@ def cut_out(live_dir):
 
 
 def run_one_case(type, res):
-    # fig = plt.figure()
-    # plt.axis('off')
+
     CFS, PFS = [], []
     cnt_list = []
 
@@ -345,6 +345,7 @@ def run_one_case(type, res):
     live_dir = os.path.join(dir_name, "live_dir")
 
     cnt_xosc = str(next_index) + ".xosc"
+
     cnt_full_path = os.path.join(dir_name, cnt_xosc)
 
     full_path_xosc = createXOSC(cnt_xosc, cnt_full_path, res)

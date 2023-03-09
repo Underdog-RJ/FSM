@@ -213,7 +213,7 @@
             <ConditionGroup>
                 <Condition name="stop" delay="0" conditionEdge="rising">
                     <ByValueCondition>
-                        <SimulationTimeCondition value="70" rule="greaterThan"/>
+                        <SimulationTimeCondition value="50" rule="greaterThan"/>
                     </ByValueCondition>
                 </Condition>
             </ConditionGroup>
