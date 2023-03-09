@@ -16,6 +16,8 @@
 #
 import os
 import random
+import time
+
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -188,6 +190,7 @@ if __name__ == '__main__':
     distance_list = []
     duration_list = []
     t_list = KMeans()
+    startTime = time.time()
     for i in range(0, 100):
         """
         update
@@ -212,7 +215,9 @@ if __name__ == '__main__':
     pd_list = pd.DataFrame(res_list)
     csv_path = os.path.join(dir_name, "res.csv")
     pd_list.to_csv(csv_path)
-
+    endTime = time.time()
+    diff = endTime - startTime
+    print("diff:" + str(diff))
     # # 生成ego_speed_dis
     # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
     # drawDistribution(ego_speeds, ego_speed_dis)
