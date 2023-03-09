@@ -213,18 +213,18 @@ if __name__ == '__main__':
     csv_path = os.path.join(dir_name, "res.csv")
     pd_list.to_csv(csv_path)
 
-    # 生成ego_speed_dis
-    ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
-    drawDistribution(ego_speeds, ego_speed_dis)
-
-    # 生成obj_speed_dis
-    obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
-    drawDistribution(obj_speeds, obj_speed_dis)
-
-    # 生成laneChangeDuration
-    distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
-    drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
-
-    # 生成laneChangeDuration
-    laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
-    drawDistribution(duration_list, laneChange_duration_dis_path)
+    # # 生成ego_speed_dis
+    # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
+    # drawDistribution(ego_speeds, ego_speed_dis)
+    #
+    # # 生成obj_speed_dis
+    # obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
+    # drawDistribution(obj_speeds, obj_speed_dis)
+    #
+    # # 生成laneChangeDuration
+    # distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
+    # drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
+    #
+    # # 生成laneChangeDuration
+    # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
+    # drawDistribution(duration_list, laneChange_duration_dis_path)

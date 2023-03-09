@@ -116,7 +116,7 @@ def createXOSC(name, save_path, res):
 
 
 def remoteCall(xoscPath, savePath):
-    execCommand = "esmini --osc {} --fixed_timestep 0.1 --csv_logger {} --collision".format(xoscPath, savePath)
+    execCommand = "esmini --osc {} --fixed_timestep 0.2 --csv_logger {} --collision".format(xoscPath, savePath)
     os.system(execCommand)
 
 
@@ -142,16 +142,16 @@ def getNextIndex():
 
 
 def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
-    init_long_speed_ego = gp.initial_speed
-    init_long_speed_c = gp.obstacle_speed
-    lateral_speed = gp.lateral_speed
-    long_dist = gp.front_distance
-
-    init_long_speed_c = init_long_speed_c / 3.6
-    init_long_speed_ego = init_long_speed_ego / 3.6
-
-    init_pos_c = np.array([long_dist + length, 1.6 + width])
-    init_pos_ego = np.array([0, 0])
+    # init_long_speed_ego = gp.initial_speed
+    # init_long_speed_c = gp.obstacle_speed
+    # lateral_speed = gp.lateral_speed
+    # long_dist = gp.front_distance
+    #
+    # init_long_speed_c = init_long_speed_c / 3.6
+    # init_long_speed_ego = init_long_speed_ego / 3.6
+    #
+    # init_pos_c = np.array([long_dist + length, 1.6 + width])
+    # init_pos_ego = np.array([0, 0])
 
     # cut_in_veh = mvt.create_profile_cutting_in(init_pos_c, init_long_speed_c, lateral_speed, iterations, freq)
 
@@ -163,7 +163,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     ego_veh.length = length
     iterations = lengthTotal
 
-    vehs = [ego_veh, cut_in_veh]
+    # vehs = [ego_veh, cut_in_veh]
 
     count = 0
     max_cfs = 0
@@ -329,8 +329,8 @@ def cut_out(live_dir):
 
 
 def run_one_case(type, res):
-    fig = plt.figure()
-    plt.axis('off')
+    # fig = plt.figure()
+    # plt.axis('off')
     CFS, PFS = [], []
     cnt_list = []
 
@@ -354,8 +354,7 @@ def run_one_case(type, res):
     remoteCall(full_path_xosc, csv_full_path)
 
     if type is "cut_in":
-        ego_veh, obj_veh, res_dic = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS,
-                                           res)
+        ego_veh, obj_veh, res_dic = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS, res)
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
@@ -364,15 +363,15 @@ def run_one_case(type, res):
     # 生成gif
     # makeGif(live_dir, dir_name, ego_veh.crash, last_index)
     # car driver info
-    cnt_pd = pd.DataFrame(cnt_list)
-    # sort by cfs_pfs
-    sort_cnt_pd = cnt_pd.sort_values(["cfs_pfs", "index"], ascending=[False, False])
-    # save info as xlsx
-    cntPath = os.path.join(dir_name, type + "_info.xlsx")
-    cnt_pd.to_excel(cntPath)
-    # save sort as xlsx
-    sortPath = os.path.join(dir_name, type + "_sort_info.xlsx")
-    sort_cnt_pd.to_excel(sortPath)
+    # cnt_pd = pd.DataFrame(cnt_list)
+    # # sort by cfs_pfs
+    # sort_cnt_pd = cnt_pd.sort_values(["cfs_pfs", "index"], ascending=[False, False])
+    # # save info as xlsx
+    # cntPath = os.path.join(dir_name, type + "_info.xlsx")
+    # cnt_pd.to_excel(cntPath)
+    # # save sort as xlsx
+    # sortPath = os.path.join(dir_name, type + "_sort_info.xlsx")
+    # sort_cnt_pd.to_excel(sortPath)
 
     ''' post processing '''
     # plt.figure('Trajectory')
@@ -385,11 +384,11 @@ def run_one_case(type, res):
     # plt.savefig(traPath)
 
     ''' Fuzzy metrics'''
-    plt.figure('Fuzzy metrics')
-    plt.plot(CFS, 'r', label='CFS')
-    plt.plot(PFS, 'b', label='PFS')
-    plt.legend()
-    resultPath = os.path.join(dir_name, "cfs_pfs.png")
-    plt.savefig(resultPath)
-    plt.close()
+    # plt.figure('Fuzzy metrics')
+    # plt.plot(CFS, 'r', label='CFS')
+    # plt.plot(PFS, 'b', label='PFS')
+    # plt.legend()
+    # resultPath = os.path.join(dir_name, "cfs_pfs.png")
+    # plt.savefig(resultPath)
+    # plt.close()
     return res_dic
