@@ -18,6 +18,8 @@ import math
 import os
 
 # import imageio
+import time
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -156,6 +158,7 @@ def cut_in(live_dir, csv_path, cnt_list, CFS, PFS, res):
     # cut_in_veh = mvt.create_profile_cutting_in(init_pos_c, init_long_speed_c, lateral_speed, iterations, freq)
 
     # ego_veh = mvt.create_profile_cutting_in(init_pos_ego, init_long_speed_ego, 0, iterations, freq)
+
     ego_veh, cut_in_veh, lengthTotal = mvt.create_veh_from_csv(csv_path)
     cut_in_veh.width = width
     cut_in_veh.length = length
@@ -330,7 +333,6 @@ def cut_out(live_dir):
 
 
 def run_one_case(type, res):
-
     CFS, PFS = [], []
     cnt_list = []
 
@@ -346,6 +348,8 @@ def run_one_case(type, res):
 
     cnt_xosc = str(next_index) + ".xosc"
 
+    startXosc = time.time()
+
     cnt_full_path = os.path.join(dir_name, cnt_xosc)
 
     full_path_xosc = createXOSC(cnt_xosc, cnt_full_path, res)
@@ -353,9 +357,14 @@ def run_one_case(type, res):
     csv_full_path = os.path.join(dir_name, str(next_index) + ".csv")
 
     remoteCall(full_path_xosc, csv_full_path)
+    endXosc = time.time()
+    print("diffXosc:" + str(endXosc - startXosc))
 
     if type is "cut_in":
+        startCalc = time.time()
         ego_veh, obj_veh, res_dic = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS, res)
+        endCalc = time.time()
+        print("diffXosc:" + str(endCalc - startCalc))
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:
