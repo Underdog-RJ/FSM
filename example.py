@@ -178,6 +178,20 @@ def multiRun():
         future3.add_done_callback(get_result)
         future4.add_done_callback(get_result)
 
+# 定义一个准备作为线程任务的函数
+def action():
+    res_list = []
+    for i in range(0, 100):
+        res = getFromParameterSpace1()
+        res_dic = real_time_cal.run_one_case(scenario, res)
+        res.update(res_dic)
+        res_list.append(res)
+
+    return res_list
+
+def get_result(future):
+    print(future.result())
+
 if __name__ == '__main__':
     KMeans()
     next_index = getNextIndex()
@@ -239,19 +253,7 @@ if __name__ == '__main__':
     # drawDistribution(duration_list, laneChange_duration_dis_path)
 
 
-# 定义一个准备作为线程任务的函数
-def action():
-    res_list = []
-    for i in range(0, 100):
-        res = getFromParameterSpace1()
-        res_dic = real_time_cal.run_one_case(scenario, res)
-        res.update(res_dic)
-        res_list.append(res)
 
-    return res_list
-
-def get_result(future):
-    print(future.result())
 
 
 
