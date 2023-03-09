@@ -348,8 +348,6 @@ def run_one_case(type, res):
 
     cnt_xosc = str(next_index) + ".xosc"
 
-    startXosc = time.time()
-
     cnt_full_path = os.path.join(dir_name, cnt_xosc)
 
     full_path_xosc = createXOSC(cnt_xosc, cnt_full_path, res)
@@ -357,14 +355,12 @@ def run_one_case(type, res):
     csv_full_path = os.path.join(dir_name, str(next_index) + ".csv")
 
     remoteCall(full_path_xosc, csv_full_path)
-    endXosc = time.time()
-    print("diffXosc:" + str(endXosc - startXosc))
+
 
     if type is "cut_in":
-        startCalc = time.time()
+
         ego_veh, obj_veh, res_dic = cut_in(live_dir, csv_full_path, cnt_list, CFS, PFS, res)
-        endCalc = time.time()
-        print("diffXosc:" + str(endCalc - startCalc))
+
     elif type is "car_following":
         ego_veh, obj_veh, last_index = car_following(live_dir)
     else:

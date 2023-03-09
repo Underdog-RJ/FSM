@@ -23,6 +23,9 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from utility import real_time_cal
+from concurrent.futures import ThreadPoolExecutor
+import threading
+import time
 
 '''
 Mandatory parameters:
@@ -162,9 +165,19 @@ def KMeans():
     return t
 
 
-"""
-    x
-"""
+def multiRun():
+    # 创建一个包含2条线程的线程池
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        future1 = pool.submit(action)
+        future2 = pool.submit(action)
+        future3 = pool.submit(action)
+        future4 = pool.submit(action)
+
+        future1.add_done_callback(get_result)
+        future2.add_done_callback(get_result)
+        future3.add_done_callback(get_result)
+        future4.add_done_callback(get_result)
+
 if __name__ == '__main__':
     KMeans()
     next_index = getNextIndex()
@@ -179,27 +192,28 @@ if __name__ == '__main__':
     obj_speeds = []
     distance_list = []
     duration_list = []
-    t_list = KMeans()
+    # t_list = KMeans()
     startTime = time.time()
-    for i in range(0, 100):
-        """
-        update
-        """
-
-        res = getFromParameterSpace1()
-        res_dic = real_time_cal.run_one_case(scenario, res)
-
-        # res = t_list[i]
-        # res_dic = real_time_cal.run_one_case(scenario, res)
-        res.update(res_dic)
-
-        res_list.append(res)
+    multiRun()
+    # for i in range(0, 100):
+    #     """
+    #     update
+    #     """
+    #
+    #     res = getFromParameterSpace1()
+    #     res_dic = real_time_cal.run_one_case(scenario, res)
+    #
+    #     # res = t_list[i]
+    #     # res_dic = real_time_cal.run_one_case(scenario, res)
+    #     res.update(res_dic)
+    #
+    #     res_list.append(res)
 
         # 参数分布
-        ego_speeds.append(res["ego_longitudeSpeed"])
-        obj_speeds.append(res["obj_longitudeSpeed"])
-        distance_list.append(res["Distance_ds_triggerValue"])
-        duration_list.append(res["laneChangeDuration"])
+        # ego_speeds.append(res["ego_longitudeSpeed"])
+        # obj_speeds.append(res["obj_longitudeSpeed"])
+        # distance_list.append(res["Distance_ds_triggerValue"])
+        # duration_list.append(res["laneChangeDuration"])
 
     # 生成结果csv
     pd_list = pd.DataFrame(res_list)
@@ -223,3 +237,21 @@ if __name__ == '__main__':
     # # 生成laneChangeDuration
     # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
     # drawDistribution(duration_list, laneChange_duration_dis_path)
+
+
+# 定义一个准备作为线程任务的函数
+def action():
+    res_list = []
+    for i in range(0, 100):
+        res = getFromParameterSpace1()
+        res_dic = real_time_cal.run_one_case(scenario, res)
+        res.update(res_dic)
+        res_list.append(res)
+
+    return res_list
+
+def get_result(future):
+    print(future.result())
+
+
+
