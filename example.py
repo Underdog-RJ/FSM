@@ -242,8 +242,9 @@ if __name__ == '__main__':
 
     for future in as_completed(all_task):
         data = future.result()
-        for i in len(data):
-            res_list.append(data[i])
+        for d in data:
+            logger.info(d)
+        res_list.append(data)
 
     # 参数分布
     # ego_speeds.append(res["ego_longitudeSpeed"])
