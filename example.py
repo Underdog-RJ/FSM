@@ -186,15 +186,11 @@ import redis
 
 re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 
-"ttt"
-
 
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
-    for i in range(0, 500):
-        re.lpush("thread", threading.current_thread().name + '  ' + str(i))
-        logger.info(threading.current_thread().name + '  ' + str(i))
+    for i in range(0, 50):
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
@@ -207,95 +203,80 @@ def get_result(future):
     logger.info("record result")
     print(len(future.result()))
 
-    # if __name__ == '__main__':
-    #     # KMeans()
-    #     next_index = getNextIndex()
-    #     dir_name = "./res"
-    #     dir_name = os.path.join(dir_name, next_index)
-    #     if os.path.exists(dir_name) is False:
-    #         os.mkdir(dir_name, 777)
-    #
-    #     # 获取随机参数
-    #     res_list = []
-    #     ego_speeds = []
-    #     obj_speeds = []
-    #     distance_list = []
-    #     duration_list = []
-    #     # t_list = KMeans()
-    #     startTime = time.time()
-    #
-    #     # multiRun()
-    #
-    #     executor = ThreadPoolExecutor(max_workers=4)
-    #     all_task = [executor.submit(action) for i in range(0, 4)]
-    #     for future in as_completed(all_task):
-    #         data = future.result()
-    #         print("len:{}".format(len(data)))
-    #
-    #     # for i in range(0, 100):
-    #     #     """
-    #     #     update
-    #     #     """
-    #     #
-    #     #     res = getFromParameterSpace1()
-    #     #     res_dic = real_time_cal.run_one_case(scenario, res)
-    #     #
-    #     #     # res = t_list[i]
-    #     #     # res_dic = real_time_cal.run_one_case(scenario, res)
-    #     #     res.update(res_dic)
-    #     #
-    #     #     res_list.append(res)
-    #
-    #     # 参数分布
-    #     # ego_speeds.append(res["ego_longitudeSpeed"])
-    #     # obj_speeds.append(res["obj_longitudeSpeed"])
-    #     # distance_list.append(res["Distance_ds_triggerValue"])
-    #     # duration_list.append(res["laneChangeDuration"])
-    #
-    #     # 生成结果csv
-    #     pd_list = pd.DataFrame(res_list)
-    #     csv_path = os.path.join(dir_name, "res.csv")
-    #     pd_list.to_csv(csv_path)
-    #     endTime = time.time()
-    #     diff = endTime - startTime
-    #     print("diff:" + str(diff))
-    #     # # 生成ego_speed_dis
-    #     # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
-    #     # drawDistribution(ego_speeds, ego_speed_dis)
-    #     #
-    #     # # 生成obj_speed_dis
-    #     # obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
-    #     # drawDistribution(obj_speeds, obj_speed_dis)
-    #     #
-    #     # # 生成laneChangeDuration
-    #     # distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
-    #     # drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
-    #     #
-    #     # # 生成laneChangeDuration
-    #     # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
-    #     # drawDistribution(duration_list, laneChange_duration_dis_path)
 
-    # executor = ThreadPoolExecutor(max_workers=3)
-    # all_task = [executor.submit(action) for i in range(0, 3)]
-    # for future in as_completed(all_task):
-    #     data = future.result()
-    #     logger.info("len-----------------------------:{}".format(len(data)))
-    #
-    # logger.info("执行结束")
+# with ThreadPoolExecutor(max_workers=4) as pool:
+#     future1 = pool.submit(action)
+#     future2 = pool.submit(action)
+#     future3 = pool.submit(action)
+#     future4 = pool.submit(action)
+# startTime = time.time()
+# while future1.done() and future2.done() and future3.done() and future4.done():
+#     logger.error("future1:" + str(len(future1.result())))
+#     logger.error("future2:" + str(len(future2.result())))
+#     logger.error("future3:" + str(len(future3.result())))
+#     logger.error("future4:" + str(len(future4.result())))
+#     logger.error("zhixignjieshu ")
+#     endTime = time.time()
+#     logger.error("diff" + str(endTime - startTime))
+#     break
+if __name__ == '__main__':
+    next_index = getNextIndex()
+    dir_name = "./res"
+    dir_name = os.path.join(dir_name, next_index)
+    if os.path.exists(dir_name) is False:
+        os.mkdir(dir_name, 777)
 
+    # 获取随机参数
+    res_list = []
+    ego_speeds = []
+    obj_speeds = []
+    distance_list = []
+    duration_list = []
 
-with ThreadPoolExecutor(max_workers=4) as pool:
-    future1 = pool.submit(action)
-    future2 = pool.submit(action)
-    future3 = pool.submit(action)
-    future4 = pool.submit(action)
-startTime = time.time()
-while future1.done() and future2.done() and future3.done() and future4.done():
-    logger.error("future1:" + str(len(future1.result())))
-    logger.error("future2:" + str(len(future2.result())))
-    logger.error("future3:" + str(len(future3.result())))
-    logger.error("future4:" + str(len(future4.result())))
-    logger.error("zhixignjieshu ")
+    startTime = time.time()
+
+    # multiRun()
+
+    executor = ThreadPoolExecutor(max_workers=4)
+    all_task = [executor.submit(action) for i in range(0, 4)]
+
+    for future in as_completed(all_task):
+        data = future.result()
+        res_list.append(data)
+
+    # 参数分布
+    # ego_speeds.append(res["ego_longitudeSpeed"])
+    # obj_speeds.append(res["obj_longitudeSpeed"])
+    # distance_list.append(res["Distance_ds_triggerValue"])
+    # duration_list.append(res["laneChangeDuration"])
+
+    # 生成结果csv
+    pd_list = pd.DataFrame(res_list)
+    csv_path = os.path.join(dir_name, "res.csv")
+    pd_list.to_csv(csv_path)
     endTime = time.time()
-    logger.error("diff" + str(endTime - startTime))
-    break
+    diff = endTime - startTime
+    logger.info("diff:" + str(diff))
+    # # 生成ego_speed_dis
+    # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
+    # drawDistribution(ego_speeds, ego_speed_dis)
+    #
+    # # 生成obj_speed_dis
+    # obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
+    # drawDistribution(obj_speeds, obj_speed_dis)
+    #
+    # # 生成laneChangeDuration
+    # distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
+    # drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
+    #
+    # # 生成laneChangeDuration
+    # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
+    # drawDistribution(duration_list, laneChange_duration_dis_path)
+
+executor = ThreadPoolExecutor(max_workers=3)
+all_task = [executor.submit(action) for i in range(0, 3)]
+for future in as_completed(all_task):
+    data = future.result()
+    logger.info("len-----------------------------:{}".format(len(data)))
+
+logger.info("执行结束")
