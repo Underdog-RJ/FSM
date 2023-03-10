@@ -14,6 +14,7 @@
 #  under the Licence.
 #
 #
+import logging
 import os
 import random
 import time
@@ -202,6 +203,7 @@ def action():
 
 
 def get_result(future):
+    logging.info("record result")
     print(len(future.result()))
 
 
@@ -277,6 +279,6 @@ executor = ThreadPoolExecutor(max_workers=4)
 all_task = [executor.submit(action) for i in range(0, 4)]
 for future in as_completed(all_task):
     data = future.result()
-    print("len-----------------------------:{}".format(len(data)))
+    logging.info("len-----------------------------:{}".format(len(data)))
 
-print("执行结束")
+logging.info("执行结束")
