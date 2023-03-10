@@ -192,7 +192,7 @@ re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
-    for i in range(0, 10):
+    for i in range(0, 500):
         re.lpush("thread", threading.current_thread().name + '  ' + str(i))
         logger.info(threading.current_thread().name + '  ' + str(i))
         res = getFromParameterSpace1()
@@ -284,7 +284,7 @@ def get_result(future):
     # logger.info("执行结束")
 
 
-with ThreadPoolExecutor(max_workers=500) as pool:
+with ThreadPoolExecutor(max_workers=4) as pool:
     future1 = pool.submit(action)
     future2 = pool.submit(action)
     future3 = pool.submit(action)
