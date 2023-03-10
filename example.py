@@ -190,7 +190,7 @@ re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
-    for i in range(0, 50):
+    for i in range(0, 500):
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
@@ -242,7 +242,8 @@ if __name__ == '__main__':
 
     for future in as_completed(all_task):
         data = future.result()
-        res_list.append(data)
+        for i in data:
+            res_list.append(data[i])
 
     # 参数分布
     # ego_speeds.append(res["ego_longitudeSpeed"])
@@ -257,6 +258,7 @@ if __name__ == '__main__':
     endTime = time.time()
     diff = endTime - startTime
     logger.info("diff:" + str(diff))
+
     # # 生成ego_speed_dis
     # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
     # drawDistribution(ego_speeds, ego_speed_dis)
@@ -273,10 +275,4 @@ if __name__ == '__main__':
     # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
     # drawDistribution(duration_list, laneChange_duration_dis_path)
 
-executor = ThreadPoolExecutor(max_workers=3)
-all_task = [executor.submit(action) for i in range(0, 3)]
-for future in as_completed(all_task):
-    data = future.result()
-    logger.info("len-----------------------------:{}".format(len(data)))
 
-logger.info("执行结束")
