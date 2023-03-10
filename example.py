@@ -190,7 +190,7 @@ re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
-    for i in range(0, 50):
+    for i in range(0, 500):
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
@@ -244,7 +244,7 @@ if __name__ == '__main__':
         data = future.result()
         for d in data:
             logger.info(d)
-        res_list.append(data)
+            res_list.append(d)
 
     # 参数分布
     # ego_speeds.append(res["ego_longitudeSpeed"])
