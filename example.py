@@ -192,7 +192,7 @@ re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
-    for i in range(0, 100):
+    for i in range(0, 10):
         re.lpush("thread", threading.current_thread().name + '  ' + str(i))
         logger.info(threading.current_thread().name + '  ' + str(i))
         res = getFromParameterSpace1()
