@@ -350,7 +350,7 @@ def run_one_case(type, res):
     # next_index = getNextIndex()
     next_index = getNextIndexFromRedis()
     dir_name = "./data"
-    tmp = type + "_" + next_index
+    tmp = type + "_" + str(next_index)
     dir_name = os.path.join(dir_name, tmp)
 
     if os.path.exists(dir_name) is False:
