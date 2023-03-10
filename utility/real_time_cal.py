@@ -23,7 +23,7 @@ import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import redis
+
 
 from post_processing import live_graph as li
 from . import movement as mvt
@@ -134,6 +134,7 @@ def getNextIndex():
     f.close()
     return next_index
 
+import redis
 
 re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 
