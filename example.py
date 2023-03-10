@@ -276,8 +276,8 @@ def get_result(future):
 #     # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
 #     # drawDistribution(duration_list, laneChange_duration_dis_path)
 
-executor = ThreadPoolExecutor(max_workers=2)
-all_task = [executor.submit(action) for i in range(0, 4)]
+executor = ThreadPoolExecutor(max_workers=3)
+all_task = [executor.submit(action) for i in range(0, 3)]
 for future in as_completed(all_task):
     data = future.result()
     logger.info("len-----------------------------:{}".format(len(data)))
