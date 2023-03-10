@@ -138,11 +138,18 @@ import redis
 
 re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 
+# Importing the `snowflake.client` module.
+import snowflake.client
+
+# Calling the `get_guid()` function from the `snowflake.client` module.
+uuid = snowflake.client.get_guid()
+
 
 def getNextIndexFromRedis():
-    re.incr("nextIndex")
-    return int(re.get("nextIndex"))
-
+    # re.incr("nextIndex")
+    # return int(re.get("nextIndex"))
+    uuid = snowflake.client.get_guid()
+    return uuid
 
 # def makeGif(live_dir, dir_name, isCrash, last_index):
 #     gif_list = []
