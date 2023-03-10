@@ -205,70 +205,78 @@ def get_result(future):
     print(len(future.result()))
 
 
-if __name__ == '__main__':
-    # KMeans()
-    next_index = getNextIndex()
-    dir_name = "./res"
-    dir_name = os.path.join(dir_name, next_index)
-    if os.path.exists(dir_name) is False:
-        os.mkdir(dir_name, 777)
+# if __name__ == '__main__':
+#     # KMeans()
+#     next_index = getNextIndex()
+#     dir_name = "./res"
+#     dir_name = os.path.join(dir_name, next_index)
+#     if os.path.exists(dir_name) is False:
+#         os.mkdir(dir_name, 777)
+#
+#     # 获取随机参数
+#     res_list = []
+#     ego_speeds = []
+#     obj_speeds = []
+#     distance_list = []
+#     duration_list = []
+#     # t_list = KMeans()
+#     startTime = time.time()
+#
+#     # multiRun()
+#
+#     executor = ThreadPoolExecutor(max_workers=4)
+#     all_task = [executor.submit(action) for i in range(0, 4)]
+#     for future in as_completed(all_task):
+#         data = future.result()
+#         print("len:{}".format(len(data)))
+#
+#     # for i in range(0, 100):
+#     #     """
+#     #     update
+#     #     """
+#     #
+#     #     res = getFromParameterSpace1()
+#     #     res_dic = real_time_cal.run_one_case(scenario, res)
+#     #
+#     #     # res = t_list[i]
+#     #     # res_dic = real_time_cal.run_one_case(scenario, res)
+#     #     res.update(res_dic)
+#     #
+#     #     res_list.append(res)
+#
+#     # 参数分布
+#     # ego_speeds.append(res["ego_longitudeSpeed"])
+#     # obj_speeds.append(res["obj_longitudeSpeed"])
+#     # distance_list.append(res["Distance_ds_triggerValue"])
+#     # duration_list.append(res["laneChangeDuration"])
+#
+#     # 生成结果csv
+#     pd_list = pd.DataFrame(res_list)
+#     csv_path = os.path.join(dir_name, "res.csv")
+#     pd_list.to_csv(csv_path)
+#     endTime = time.time()
+#     diff = endTime - startTime
+#     print("diff:" + str(diff))
+#     # # 生成ego_speed_dis
+#     # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
+#     # drawDistribution(ego_speeds, ego_speed_dis)
+#     #
+#     # # 生成obj_speed_dis
+#     # obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
+#     # drawDistribution(obj_speeds, obj_speed_dis)
+#     #
+#     # # 生成laneChangeDuration
+#     # distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
+#     # drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
+#     #
+#     # # 生成laneChangeDuration
+#     # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
+#     # drawDistribution(duration_list, laneChange_duration_dis_path)
 
-    # 获取随机参数
-    res_list = []
-    ego_speeds = []
-    obj_speeds = []
-    distance_list = []
-    duration_list = []
-    # t_list = KMeans()
-    startTime = time.time()
+executor = ThreadPoolExecutor(max_workers=4)
+all_task = [executor.submit(action) for i in range(0, 4)]
+for future in as_completed(all_task):
+    data = future.result()
+    print("len-----------------------------:{}".format(len(data)))
 
-    # multiRun()
-
-    executor = ThreadPoolExecutor(max_workers=4)
-    all_task = [executor.submit(action) for i in range(0, 4)]
-    for future in as_completed(all_task):
-        data = future.result()
-        print("len:{}".format(len(data)))
-
-    # for i in range(0, 100):
-    #     """
-    #     update
-    #     """
-    #
-    #     res = getFromParameterSpace1()
-    #     res_dic = real_time_cal.run_one_case(scenario, res)
-    #
-    #     # res = t_list[i]
-    #     # res_dic = real_time_cal.run_one_case(scenario, res)
-    #     res.update(res_dic)
-    #
-    #     res_list.append(res)
-
-    # 参数分布
-    # ego_speeds.append(res["ego_longitudeSpeed"])
-    # obj_speeds.append(res["obj_longitudeSpeed"])
-    # distance_list.append(res["Distance_ds_triggerValue"])
-    # duration_list.append(res["laneChangeDuration"])
-
-    # 生成结果csv
-    pd_list = pd.DataFrame(res_list)
-    csv_path = os.path.join(dir_name, "res.csv")
-    pd_list.to_csv(csv_path)
-    endTime = time.time()
-    diff = endTime - startTime
-    print("diff:" + str(diff))
-    # # 生成ego_speed_dis
-    # ego_speed_dis = os.path.join(dir_name, "ego_speed_dis.png")
-    # drawDistribution(ego_speeds, ego_speed_dis)
-    #
-    # # 生成obj_speed_dis
-    # obj_speed_dis = os.path.join(dir_name, "obj_speed_dis.png")
-    # drawDistribution(obj_speeds, obj_speed_dis)
-    #
-    # # 生成laneChangeDuration
-    # distance_ds_triggerValue_dis_path = os.path.join(dir_name, "distance_ds_triggerValue_dis.png")
-    # drawDistribution(distance_list, distance_ds_triggerValue_dis_path)
-    #
-    # # 生成laneChangeDuration
-    # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
-    # drawDistribution(duration_list, laneChange_duration_dis_path)
+print("执行结束")
