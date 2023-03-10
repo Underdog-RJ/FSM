@@ -178,6 +178,7 @@ def multiRun():
         future3.add_done_callback(get_result)
         future4.add_done_callback(get_result)
 
+"ttt"
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
