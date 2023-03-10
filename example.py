@@ -291,5 +291,9 @@ with ThreadPoolExecutor(max_workers=4) as pool:
     future4 = pool.submit(action)
 
 while future1.done() and future2.done() and future3.done() and future4.done():
+    logger.error("future1:"+len(future1.result()))
+    logger.error("future2:"+len(future2.result()))
+    logger.error("future3:"+len(future3.result()))
+    logger.error("future4:"+len(future4.result()))
     logger.error("zhixignjieshu ")
     break
