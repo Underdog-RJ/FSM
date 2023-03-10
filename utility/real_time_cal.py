@@ -120,7 +120,7 @@ def createXOSC(name, save_path, res):
 
 
 def remoteCall(xoscPath, savePath):
-    execCommand = "esmini --osc {} --fixed_timestep 0.1 --csv_logger {} --collision".format(xoscPath, savePath)
+    execCommand = "nohup esmini --osc {} --fixed_timestep 0.1 --csv_logger {} --collision &".format(xoscPath, savePath)
     os.system(execCommand)
 
 
