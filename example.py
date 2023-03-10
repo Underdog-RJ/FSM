@@ -284,16 +284,18 @@ def get_result(future):
     # logger.info("执行结束")
 
 
-with ThreadPoolExecutor(max_workers=4) as pool:
+with ThreadPoolExecutor(max_workers=500) as pool:
     future1 = pool.submit(action)
     future2 = pool.submit(action)
     future3 = pool.submit(action)
     future4 = pool.submit(action)
-
+startTime = time.time()
 while future1.done() and future2.done() and future3.done() and future4.done():
     logger.error("future1:" + str(len(future1.result())))
     logger.error("future2:" + str(len(future2.result())))
     logger.error("future3:" + str(len(future3.result())))
     logger.error("future4:" + str(len(future4.result())))
     logger.error("zhixignjieshu ")
+    endTime = time.time()
+    logger.error("diff" + str(endTime - startTime))
     break
