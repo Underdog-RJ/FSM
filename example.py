@@ -190,7 +190,7 @@ re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
-    for i in range(0, 500):
+    for i in range(0, 50):
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
@@ -242,7 +242,7 @@ if __name__ == '__main__':
 
     for future in as_completed(all_task):
         data = future.result()
-        for i in data:
+        for i in len(data):
             res_list.append(data[i])
 
     # 参数分布
