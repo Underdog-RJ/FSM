@@ -194,7 +194,7 @@ def action():
     res_list = []
     for i in range(0, 100):
         re.lpush("thread", threading.current_thread().name + '  ' + str(i))
-        logger.info("thread", threading.current_thread().name + '  ' + str(i))
+        logger.info(threading.current_thread().name + '  ' + str(i))
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
