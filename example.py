@@ -23,7 +23,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from utility import real_time_cal
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 import time
 
@@ -180,15 +180,19 @@ def multiRun():
 
         pool.shutdown(wait=True)
 
+
 import redis
+
 re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 
 "ttt"
+
+
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
     for i in range(0, 100):
-        re.lpush("thread",threading.current_thread().name + '  ' + str(i))
+        re.lpush("thread", threading.current_thread().name + '  ' + str(i))
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
@@ -196,8 +200,10 @@ def action():
 
     return res_list
 
+
 def get_result(future):
     print(len(future.result()))
+
 
 if __name__ == '__main__':
     # KMeans()
@@ -215,7 +221,15 @@ if __name__ == '__main__':
     duration_list = []
     # t_list = KMeans()
     startTime = time.time()
-    multiRun()
+
+    # multiRun()
+
+    executor = ThreadPoolExecutor(max_workers=4)
+    all_task = [executor.submit(action) for i in range(0, 4)]
+    for future in as_completed(all_task):
+        data = future.result()
+        print("len:{}".format(len(data)))
+
     # for i in range(0, 100):
     #     """
     #     update
@@ -230,11 +244,11 @@ if __name__ == '__main__':
     #
     #     res_list.append(res)
 
-        # 参数分布
-        # ego_speeds.append(res["ego_longitudeSpeed"])
-        # obj_speeds.append(res["obj_longitudeSpeed"])
-        # distance_list.append(res["Distance_ds_triggerValue"])
-        # duration_list.append(res["laneChangeDuration"])
+    # 参数分布
+    # ego_speeds.append(res["ego_longitudeSpeed"])
+    # obj_speeds.append(res["obj_longitudeSpeed"])
+    # distance_list.append(res["Distance_ds_triggerValue"])
+    # duration_list.append(res["laneChangeDuration"])
 
     # 生成结果csv
     pd_list = pd.DataFrame(res_list)
@@ -258,9 +272,3 @@ if __name__ == '__main__':
     # # 生成laneChangeDuration
     # laneChange_duration_dis_path = os.path.join(dir_name, "laneChange_duration_dis.png")
     # drawDistribution(duration_list, laneChange_duration_dis_path)
-
-
-
-
-
-
