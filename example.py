@@ -177,13 +177,15 @@ def multiRun():
         future2.add_done_callback(get_result)
         future3.add_done_callback(get_result)
         future4.add_done_callback(get_result)
+import redis
+re = redis.Redis(host='159.27.184.52', port=9763, password="Zhangzhengxu123.")
 
 "ttt"
 # 定义一个准备作为线程任务的函数
 def action():
     res_list = []
     for i in range(0, 100):
-        print(threading.current_thread().name + '  ' + str(i))
+        re.lpush("thread",threading.current_thread().name + '  ' + str(i))
         res = getFromParameterSpace1()
         res_dic = real_time_cal.run_one_case(scenario, res)
         res.update(res_dic)
